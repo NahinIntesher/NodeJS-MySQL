@@ -1,0 +1,146 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@200;300;400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  padding: 0 10px;
+  background: #111;
+  color: #cbf078;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url("https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
+    #000;
+  background-position: center;
+  background-size: cover;
+  z-index: -1;
+}
+
+.wrapper {
+  width: 25rem;
+  border-radius: 8px;
+  padding: 30px;
+  text-align: center;
+  border: 1px solid #cbf078;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #cbf078;
+}
+
+.input-field {
+  position: relative;
+  border-bottom: 2px solid #cbf078;
+  margin: 20px 0;
+}
+.input-field label {
+  position: absolute;
+  top: 50%; /* Adjusted to center vertically */
+  left: 0;
+  transform: translateY(-25%);
+  color: #cbf078;
+  font-size: 16px;
+  font-weight: 700;
+  pointer-events: none;
+  transition: 0.15s ease;
+}
+
+.input-field input {
+  width: 100%;
+  height: 50px;
+  background: transparent;
+  border: none;
+  outline: none;
+  word-spacing: 2px;
+  font-size: 20px;
+  font-family: "Times New Roman", Times, serif;
+  color: #fff;
+  padding-top: 10px; /* Adjusted padding to create space for the label */
+}
+
+.input-field input:focus ~ label,
+.input-field input:valid ~ label {
+  font-size: 0.8rem;
+  top: 0; /* Adjusted position when focused or valid */
+  transform: translateY(-50%);
+}
+
+.forget {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 25px 0 35px 0;
+  color: #cbf078;
+}
+
+#remember {
+  accent-color: #cbf078;
+}
+
+.forget label {
+  display: flex;
+  align-items: center;
+}
+
+.forget label p {
+  margin-left: 8px;
+}
+
+.wrapper a {
+  color: #cbf078;
+  text-decoration: none;
+}
+
+.wrapper a:hover {
+  text-decoration: underline;
+}
+
+button {
+  background: #cbf078;
+  color: #000;
+  margin-top: 1rem;
+  font-weight: 700;
+  border: none;
+  padding: 12px 20px;
+  cursor: pointer;
+  border-radius: 3px;
+  font-size: 16px;
+  border: 2px solid transparent;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  font-weight: 700;
+  color: #442776;
+  border-color: #cbf078;
+  background: #cbf078;
+}
+
+.register {
+  text-align: center;
+  margin-top: 30px;
+  color: #cbf078;
+}

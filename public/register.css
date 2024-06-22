@@ -36,7 +36,7 @@ body::before {
   padding: 30px;
   text-align: center;
   border: 1px solid #cbf078;
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);  
   -webkit-backdrop-filter: blur(20px);
 }
 

@@ -1,0 +1,81 @@
+/* settings.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #5aba99;
+  color: #333;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+}
+
+.contentContainer {
+  height: 100vh;
+  width: 100vw;
+  /* max-width: 500px; */
+  padding: 40px;
+  background-color: #3c7c8b;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 30px;
+}
+
+.optionList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.option {
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: beige;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none; /* Ensure links have no underline */
+  color: inherit; /* Ensure link text color is inherited */
+}
+
+.option:hover {
+  background-color: beige;
+  transform: scale(1.02);
+}
+
+.icon {
+  margin-right: 15px;
+}
+
+.icon i {
+  font-size: 20px;
+  color: #888;
+}
+
+.text {
+  font-size: 18px;
+  color: #555;
+}
+
+a.option {
+  text-decoration: none;
+  color: inherit;
+}
+
+a.option:hover {
+  background-color: #e7e7e7;
+  transform: scale(1.02);
+}
+

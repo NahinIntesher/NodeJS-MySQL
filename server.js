@@ -3,7 +3,11 @@ const connection = require("./Connection");
 const app = express();
 const bodyParser = require("body-parser");
 const path = require("path");
+const jwt = require("jsonwebtoken");
+const cookies = require("cookie-parser");
 
+
+// Connect to the database
 connection.connect((err) => {
   if (err) {
     console.error("Error connecting to database: ", err);
@@ -12,43 +16,174 @@ connection.connect((err) => {
   console.log("Connected to database");
 });
 
+
+
+// Middleware
+app.use(cookies());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 
+
+
+
+
+/* All get methods */
 app.get("/register", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "register.html"));
+  if (req.cookies.userRegistered) {
+    res.redirect("/");
+  } else {
+    res.sendFile(path.join(__dirname, "register.html"));
+  }
 });
+
 
 app.get("/login", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "login.html"));
+  if (req.cookies.userRegistered) {
+    res.redirect("/");
+  } else {
+    res.sendFile(path.join(__dirname, "login.html"));
+  }
 });
 
-// Handle registration form submission on POST request
+
+app.get("/settings", (req, res) => {
+  var sql = "SELECT * FROM students WHERE id=?";
+  var id = req.query.id;
+
+  connection.query(sql, [id], (err, result) => {
+    if (err) console.log(err);
+    res.render(__dirname + "/settings.ejs", { student: result[0] });
+  });
+});
+
+
+app.get("/homepage", (req, res) => {
+  if (req.cookies.userRegistered) {
+    let decoded = jwt.verify(req.cookies.userRegistered, "1234");
+    let id = decoded.id;
+    connection.connect((error) => {
+      if (error) console.log(error);
+      connection.query(
+        "SELECT * FROM students WHERE id = ?",
+        [id],
+        (err, result) => {
+          if (err) console.log(err);
+          res.render(__dirname + "/index.ejs", { students: result[0] });
+        }
+      );
+    });
+  } else {
+    res.redirect("/login");
+  }
+});
+
+
+app.get("/logout", (req, res) => {
+  res.clearCookie("userRegistered");
+  res.redirect("/");
+});
+
+
+app.get("/", (req, res) => {
+  if (req.cookies.userRegistered) {
+    res.redirect("/homePage");
+  } else {
+    res.redirect("/login");
+  }
+});
+
+
+app.get("/students", (req, res) => {
+  connection.connect((error) => {
+    if (error) console.log(error);
+    connection.query("SELECT * FROM students", (err, result) => {
+      if (err) console.log(err);
+      res.render(__dirname + "/students.ejs", { students: result });
+    });
+  });
+});
+
+
+app.get("/delete-student", (req, res) => {
+  connection.connect((error) => {
+    if (error) console.log(error);
+
+    var sql = "DELETE FROM students WHERE id = ?";
+    var id = req.query.id;
+    connection.query(sql, [id], (err, result) => {
+      if (err) console.log(err);
+      res.redirect("/students");
+      // res.render(__dirname + "/students.ejs", { students: result });
+    });
+  });
+});
+
+
+app.get("/update-student", (req, res) => {
+  connection.connect((error) => {
+    if (error) console.log(error);
+
+    var sql = "SELECT * FROM students WHERE id=?";
+    var id = req.query.id;
+
+    connection.query(sql, [id], (err, result) => {
+      if (err) console.log(err);
+      res.render(__dirname + "/update-student.ejs", { student: result });
+    });
+  });
+});
+
+
+app.get("/change-password", (req, res) => {
+  connection.connect((error) => {
+    if (error) console.log(error);
+
+    var sql = "SELECT * FROM students WHERE id=?";
+    var id = req.query.id;
+    console.log(`-> ${req.query.id}`);
+
+    connection.query(sql, [id], (err, result) => {
+      if (err) console.log(err);
+      res.render(__dirname + "/changepassword.ejs", { student: result[0] });
+    });
+  });
+});
+
+
+
+
+
+
+
+
+
+/* All post methods */
 app.post("/register.html", (req, res) => {
-  const { name, id, phone_no, email, password, confirmPassword } = req.body;
+  const { name, phone_no, email, password, confirmPassword } = req.body;
 
   if (password !== confirmPassword) {
     return res.status(400).send("Passwords do not match");
   }
 
   connection.query(
-    "INSERT INTO students (name, id, phone_no, email, password, confirmPassword) VALUES (?, ?, ?, ?, ?, ?)",
-    [name, id, phone_no, email, password, confirmPassword],
+    "INSERT INTO students (name, phone_no, email, password, confirmPassword) VALUES (?, ?, ?, ?, ?)",
+    [name, phone_no, email, password, confirmPassword],
     (err, results) => {
       if (err) {
         return res.status(500).send("Error registering user");
       }
-      res.send("Registered successfully!");
+      res.redirect("/login");
+      // res.send("Registered successfully!");
     }
   );
 });
 
-// Handle login form submission on POST request
+
 app.post("/login.html", (req, res) => {
   const { email, password } = req.body;
-  console.log(req.body);
+
   connection.query(
     "SELECT * FROM students WHERE email = ?",
     [email],
@@ -59,20 +194,57 @@ app.post("/login.html", (req, res) => {
           .status(500)
           .send("An error occurred while retrieving user data");
       }
-      console.log(results);
+
       if (results.length === 0) {
         return res.status(401).send("Invalid email or password");
       }
 
       const storedPassword = results[0].password;
-      if (storedPassword === password) {
-        res.send("Login successful");
-      } else {
-        res.status(401).send("Invalid email or password");
+      const uid = results[0].id;
+      // Compare hashed password (recommended to hash passwords before storing)
+      if (storedPassword !== password) {
+        return res.status(401).send("Invalid email or password");
       }
+
+      let token = jwt.sign({ id: uid }, "1234", { expiresIn: "10d" });
+      let cookieOptions = {
+        expiresIn: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
+        httpOnly: true,
+      };
+      res.cookie("userRegistered", token, cookieOptions);
+      res.redirect("/");
     }
   );
 });
+
+
+app.post("/update-student", (req, res) => {
+  connection.connect((error) => {
+    if (error) console.log(error);
+
+    var sql =
+      "UPDATE students SET name=?, phone_no=?, email=?, password=? WHERE id=?";
+    var { name, phone_no, email, password, id } = req.body;
+
+    connection.query(
+      sql,
+      [name, phone_no, email, password, id],
+      (err, result) => {
+        if (err) console.log(err);
+        res.redirect("/students");
+      }
+    );
+  });
+});
+
+
+
+
+
+
+
+
+
 
 // Start the server
 app.listen(3000);

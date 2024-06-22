@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Update Student</title>
+  <link rel="stylesheet" href="/register.css"/>
+</head>
+<body>
+  <div class="wrapper">
+    <form action="" method="POST" id="UpdateForm">
+      <h2>Update Student Information</h2>
+
+      <div class="input-field">
+        <input type="text" name="name" value="<%= student[0].name  %>" required/>
+        <label>Name</label>
+      </div>
+
+      <div class="input-field">
+        <input type="text" name="id" value="<%= student[0].id  %>"  required />
+        <label>Id</label>
+      </div>
+
+      <div class="input-field">
+        <input type="text" name="phone_no" value="<%= student[0].phone_no  %>" required />
+        <label>Phone number</label>
+      </div>
+
+      <div class="input-field">
+        <input type="email" name="email" value="<%= student[0].email  %>" required />
+        <label>Email</label>
+      </div>
+
+      <div class="input-field">
+        <input type="password" name="password" value="<%= student[0].password  %>" required />
+        <label>Password</label>
+      </div>
+
+      <button type="submit" id="UpdateButton">Update</button>
+      
+    </form>
+  </div>
+</body>
+</html>

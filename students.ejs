@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Students List</title>
+    <style>
+      body{
+        margin: 0;
+        padding: 0;
+        background-color: rgb(142, 80, 223);
+      }
+      h1{
+        text-align: center;
+        color: white;
+        background-color: rgb(142, 80, 223);
+        padding: 20px;
+      }
+      table{
+        margin: 0 auto;
+        margin-top: 20px;
+        width: 80%;
+        border: 5px solid black;
+        border-collapse: collapse;
+        background-color:bisque;
+      }
+      tr, th, td{
+        border: 2px solid black;
+        padding: 10px;
+      }
+      a:link, a:visited {
+        background-color: white;
+        color: black;
+        border: 2px solid rgb(142, 80, 223);
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      a:hover, a:active {
+        background-color: rgb(142, 80, 223);
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Students List</h1>
+
+    <table border="1" width="100%">
+      <thead>
+        <tr style="height: 15vh">
+          <th>Serial No.</th>
+          <th>Name</th>
+          <th>ID</th>
+          <th>Phone Number</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody style="text-align: center;">
+        <% if(students.length === 0) { %>
+          <tr style="height: 5rem; font-size: larger; font-weight: 700;">
+            <td colspan="5">No data found</td>
+          </tr>  
+        <% } else { %>
+          <% for(var i = 0; i < students.length; i++) { %>
+            <tr style="height: 15vh">
+              <td><%= i+1 %></td>
+              <td><%= students[i].name %></td>
+              <td><%= students[i].id %></td>
+              <td><%= students[i].phone_no %></td>
+              <td><%= students[i].email %></td>
+              <td>
+                <a href="/delete-student?id=<%= students[i].id%>">Delete</a>
+                <a href="/update-student?id=<%= students[i].id%>">Update</a>
+              </td>
+            </tr>
+          <% } %>
+        <% } %>
+      </tbody>
+
+    </table>
+  </body>
+</html>

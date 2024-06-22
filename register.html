@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="/register.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <form action="" method="POST" id="registerForm">
+        <h2>Register</h2>
+
+        <div class="input-field">
+          <input type="text" name="name" required />
+          <label>Enter your name</label>
+        </div>
+
+        <div class="input-field">
+          <input type="text" name="phone_no" required />
+          <label>Enter your phone number</label>
+        </div>
+
+        <div class="input-field">
+          <input type="email" name="email" required />
+          <label>Enter your email</label>
+        </div>
+
+        <div class="input-field">
+          <input type="password" name="password" required />
+          <label for="password">Password</label>
+        </div>
+
+        <div class="input-field">
+          <input type="password" name="confirmPassword" required />
+          <label for="confirmPassword">Retype Password</label>
+        </div>
+
+        <button type="submit" id="submitButton">Submit</button>
+
+        <div class="register">
+          <p>Already have an account? <a href="login.html">Log In</a></p>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

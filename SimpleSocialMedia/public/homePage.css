@@ -9,7 +9,7 @@ header {
   color: white;
   text-align: space-between;
 }
-header .nav-contents{
+header .nav-contents {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -19,6 +19,7 @@ nav {
   justify-content: space-between;
   background-color: #3c7c8b; /* Intermediate teal shade */
   padding: 10px;
+  margin: 0; /* Ensure no margin */
 }
 nav a {
   color: white;
@@ -27,36 +28,38 @@ nav a {
   font-weight: bold;
 }
 nav a:hover {
-  text-decoration: underline;
+  text-decoration: dashed;
 }
-.container {
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
+
 .hero {
-  width: 100%;
-  text-align: center;
-  background: linear-gradient(to bottom, #2f5d78, #89c6c3);
+  height: 20vh;
+  background: linear-gradient(#2f5d78, #89c6c3);
   color: white;
+  display: flex;
+  flex-direction: column ;
+  justify-content: center;
+  align-items: center;
 }
 .hero h1 {
-  margin-top: 2px;
-  border-radius: 2px;
+  padding: 20px;
+  text-align: center;
+  margin: 0; /* Ensure no margin */
+}
+.hero h2 {
+  width: 95vw;
+  text-align: center;
+  border-radius: 15px;
+  box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.5);
   padding: 10px;
-  /* width: 100%; */
+  color: purple;
   margin: 0;
-  font-size: 3em;
-  background-color: rgb(56, 100, 80);
+  font-size: 3rem;
+  background-color: rgb(154, 239, 215);
 }
 .hero p {
   font-size: 1.2em;
 }
-.content {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
+
 .content .box {
   background-color: white;
   border-radius: 8px;
@@ -71,7 +74,7 @@ nav a:hover {
   border-radius: 8px;
 }
 footer {
-  background-color: #2f5d78;
+  background-color: #10476e;
   color: white;
   display: flex;
   align-items: center;

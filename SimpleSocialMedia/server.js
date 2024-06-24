@@ -6,7 +6,6 @@ const path = require("path");
 const jwt = require("jsonwebtoken");
 const cookies = require("cookie-parser");
 
-
 // Connect to the database
 connection.connect((err) => {
   if (err) {
@@ -16,8 +15,6 @@ connection.connect((err) => {
   console.log("Connected to database");
 });
 
-
-
 // Middleware
 app.use(cookies());
 app.use(bodyParser.json());
@@ -25,10 +22,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
-
-
-
-
 
 /* All get methods */
 app.get("/register", (req, res) => {
@@ -39,7 +32,6 @@ app.get("/register", (req, res) => {
   }
 });
 
-
 app.get("/login", (req, res) => {
   if (req.cookies.userRegistered) {
     res.redirect("/");
@@ -48,7 +40,6 @@ app.get("/login", (req, res) => {
   }
 });
 
-
 app.get("/", (req, res) => {
   if (req.cookies.userRegistered) {
     res.redirect("/homePage");
@@ -56,7 +47,6 @@ app.get("/", (req, res) => {
     res.redirect("/login");
   }
 });
-
 
 app.get("/homepage", (req, res) => {
   if (req.cookies.userRegistered) {
@@ -69,7 +59,7 @@ app.get("/homepage", (req, res) => {
         [id],
         (err, result) => {
           if (err) console.log(err);
-          res.render(__dirname + "/index.ejs", { students: result[0] });
+          res.render("index", { students: result[0] });
         }
       );
     });
@@ -78,51 +68,49 @@ app.get("/homepage", (req, res) => {
   }
 });
 
-
 app.get("/settings", (req, res) => {
   var sql = "SELECT * FROM students WHERE id=?";
   var id = req.query.id;
 
   connection.query(sql, [id], (err, result) => {
     if (err) console.log(err);
-    res.render(__dirname + "/settings.ejs", { student: result[0] });
+    res.render("settings", { student: result[0] });
   });
 });
-
 
 app.get("/settings/change-password", (req, res) => {
   connection.connect((error) => {
     if (error) console.log(error);
 
     var sql = "SELECT * FROM students WHERE id=?";
-    
+
     const decoded = jwt.verify(req.cookies.userRegistered, "1234");
     const id = decoded.id;
 
     connection.query(sql, [id], (err, result) => {
       if (err) console.log(err);
-      res.render(__dirname + "/views/changepassword.ejs", { student: result[0], message: "" });
+      res.render("changepassword", {
+        student: result[0],
+        message: "",
+      });
     });
   });
 });
-
 
 app.get("/logout", (req, res) => {
   res.clearCookie("userRegistered");
   res.redirect("/");
 });
 
-
 app.get("/students", (req, res) => {
   connection.connect((error) => {
     if (error) console.log(error);
     connection.query("SELECT * FROM students", (err, result) => {
       if (err) console.log(err);
-      res.render(__dirname + "/students.ejs", { students: result });
+      res.render("students", { students: result });
     });
   });
 });
-
 
 app.get("/delete-student", (req, res) => {
   connection.connect((error) => {
@@ -138,7 +126,6 @@ app.get("/delete-student", (req, res) => {
   });
 });
 
-
 app.get("/update-student", (req, res) => {
   connection.connect((error) => {
     if (error) console.log(error);
@@ -148,21 +135,10 @@ app.get("/update-student", (req, res) => {
 
     connection.query(sql, [id], (err, result) => {
       if (err) console.log(err);
-      res.render(__dirname + "/update-student.ejs", { student: result });
+      res.render("update-student", { student: result });
     });
   });
 });
-
-
-
-
-
-
-
-
-
-
-
 
 /* All post methods */
 app.post("/register.html", (req, res) => {
@@ -184,7 +160,6 @@ app.post("/register.html", (req, res) => {
     }
   );
 });
-
 
 app.post("/login.html", (req, res) => {
   const { email, password } = req.body;
@@ -222,7 +197,6 @@ app.post("/login.html", (req, res) => {
   );
 });
 
-
 app.post("/update-student", (req, res) => {
   connection.connect((error) => {
     if (error) console.log(error);
@@ -242,53 +216,55 @@ app.post("/update-student", (req, res) => {
   });
 });
 
-
-
-
 app.post("/settings/change-password", (req, res) => {
   const { currentPassword, newPassword, confirmNewPassword } = req.body;
-  
-  if (newPassword !== confirmNewPassword) {
-    return res.render("/settings/change-password", { message: "CONFIRM_PASSWORD_DOES_NOT_MATCH" });
-  }
 
   const decoded = jwt.verify(req.cookies.userRegistered, "1234");
   const id = decoded.id;
 
-  // connection.query("SELECT * FROM students WHERE id = ?", [id], (err, result) => {
-  //   if (err) {
-  //     console.log(err);
-  //     return res.render("/settings/change-password", { message: "DATABASE_QUERY_ERROR" });
-  //   }
+  connection.query(
+    "SELECT * FROM students WHERE id = ?",
+    [id],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        return res.render("changepassword", {
+          message: "DATABASE_QUERY_ERROR",
+        });
+      }
 
-  //   if (result.length === 0) {
-  //     return res.render("/settings/change-password", { message: "USER_NOT_FOUND" });
-  //   }
+      const user = result[0];
 
-  //   const user = result[0];
+      if (user.password !== currentPassword) {
+        return res.render("changepassword", {
+          message: "CURRENT_PASSWORD_DOES_NOT_MATCH",
+        });
+      }
 
-  //   if (user.password !== currentPassword) {
-  //     return res.render("/settings/change-password", { message: "CURRENT_PASSWORD_DOES_NOT_MATCH" });
-  //   }
+      connection.query(
+        "UPDATE students SET password = ? WHERE id = ?",
+        [newPassword, id],
+        (err, result) => {
+          if (err) {
+            console.log(err);
+            return res.render("changepassword", {
+              message: "PASSWORD_UPDATE_FAILED",
+            });
+          }
+          if (confirmNewPassword !== newPassword) {
+            return res.render("changepassword", {
+              message: "CONFIRM_PASSWORD_DOES_NOT_MATCH",
+            });
+          }
 
-  //   connection.query("UPDATE students SET password = ? WHERE id = ?", [newPassword, id], (err, result) => {
-  //     if (err) {
-  //       console.log(err);
-  //       return res.render("/settings/change-password", { message: "PASSWORD_UPDATE_FAILED" });
-  //     }
-
-  //     return res.render("/settings/change-password", { message: "SUCCESS" });
-  //   });
-  // });
+          return res.render("changepassword", {
+            message: "SUCCESS",
+          });
+        }
+      );
+    }
+  );
 });
-
-
-
-
-
-
-
-
 
 // Start the server
 app.listen(3000);

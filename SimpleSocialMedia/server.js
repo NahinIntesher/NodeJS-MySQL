@@ -22,6 +22,7 @@ connection.connect((err) => {
 app.use(cookies());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -89,7 +90,7 @@ app.get("/settings", (req, res) => {
 });
 
 
-app.get("/change-password", (req, res) => {
+app.get("/settings/change-password", (req, res) => {
   connection.connect((error) => {
     if (error) console.log(error);
 
@@ -100,7 +101,7 @@ app.get("/change-password", (req, res) => {
 
     connection.query(sql, [id], (err, result) => {
       if (err) console.log(err);
-      res.render(__dirname + "/changepassword.ejs", { student: result[0], massage: "" });
+      res.render(__dirname + "/views/changepassword.ejs", { student: result[0], message: "" });
     });
   });
 });
@@ -244,52 +245,42 @@ app.post("/update-student", (req, res) => {
 
 
 
-app.post("/change-password", (req, res) => {
+app.post("/settings/change-password", (req, res) => {
   const { currentPassword, newPassword, confirmNewPassword } = req.body;
-
+  
   if (newPassword !== confirmNewPassword) {
-    return res.render("change-password", { message: "CONFIRM_PASSWORD_DOES_NOT_MATCHED" });
+    return res.render("/settings/change-password", { message: "CONFIRM_PASSWORD_DOES_NOT_MATCH" });
   }
 
   const decoded = jwt.verify(req.cookies.userRegistered, "1234");
   const id = decoded.id;
 
-  connection.connect((error) => {
-    if (error) {
-      console.log(error);
-      return res.render("change-password", { message: "DATABASE_CONNECTION_ERROR" });
-    }
+  // connection.query("SELECT * FROM students WHERE id = ?", [id], (err, result) => {
+  //   if (err) {
+  //     console.log(err);
+  //     return res.render("/settings/change-password", { message: "DATABASE_QUERY_ERROR" });
+  //   }
 
-    const sql = "SELECT * FROM students WHERE id=?";
-    connection.query(sql, [id], (err, result) => {
-      if (err) {
-        console.log(err);
-        return res.render("change-password", { message: "DATABASE_QUERY_ERROR" });
-      }
+  //   if (result.length === 0) {
+  //     return res.render("/settings/change-password", { message: "USER_NOT_FOUND" });
+  //   }
 
-      if (result.length === 0) {
-        return res.render("change-password", { message: "USER_NOT_FOUND" });
-      }
+  //   const user = result[0];
 
-      const user = result[0];
+  //   if (user.password !== currentPassword) {
+  //     return res.render("/settings/change-password", { message: "CURRENT_PASSWORD_DOES_NOT_MATCH" });
+  //   }
 
-      if (user.password !== currentPassword) {
-        return res.render("change-password", { message: "CURRENT_PASSWORD_DOES_NOT_MATCH" });
-      }
+  //   connection.query("UPDATE students SET password = ? WHERE id = ?", [newPassword, id], (err, result) => {
+  //     if (err) {
+  //       console.log(err);
+  //       return res.render("/settings/change-password", { message: "PASSWORD_UPDATE_FAILED" });
+  //     }
 
-      const updateSql = "UPDATE students SET password = ? WHERE id = ?";
-      connection.query(updateSql, [newPassword, id], (err, result) => {
-        if (err) {
-          console.log(err);
-          return res.render("change-password", { message: "PASSWORD_UPDATE_FAILED" });
-        }
-
-        return res.render("change-password", { message: "SUCCESS" });
-      });
-    });
-  });
+  //     return res.render("/settings/change-password", { message: "SUCCESS" });
+  //   });
+  // });
 });
-
 
 
 

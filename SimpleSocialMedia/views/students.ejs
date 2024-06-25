@@ -4,47 +4,50 @@
     <title>Students List</title>
     <style>
       body {
-  margin: 0;
-  padding: 0;
-  background-color: #552e5a;
-}
+        margin: 0;
+        padding: 0;
+        background-color: #552e5a;
+      }
 
-h1 {
-  text-align: center;
-  color: #ecffa3;
-  background-color: #552e5a;
-  padding: 20px;
-}
+      h1 {
+        text-align: center;
+        color: #ecffa3;
+        background-color: #552e5a;
+        padding: 20px;
+      }
 
-table {
-  margin: 0 auto;
-  margin-top: 20px;
-  width: 80%;
-  border: 5px solid #cf7979;
-  border-collapse: collapse;
-  background-color: #ecffa3;
-}
+      table {
+        margin: 0 auto;
+        margin-top: 20px;
+        width: 80%;
+        border: 5px solid #cf7979;
+        border-collapse: collapse;
+        background-color: #ecffa3;
+      }
 
-tr, th, td {
-  border: 2px solid #552e5a;
-  padding: 10px;
-}
+      tr,
+      th,
+      td {
+        border: 2px solid #552e5a;
+        padding: 10px;
+      }
 
-a:link, a:visited {
-  background-color: #ecffa3;
-  color: #552e5a;
-  border: 2px solid #552e5a;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-}
+      a:link,
+      a:visited {
+        background-color: #ecffa3;
+        color: #552e5a;
+        border: 2px solid #552e5a;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+      }
 
-a:hover, a:active {
-  background-color: #552e5a;
-  color: #ecffa3;
-}
-
+      a:hover,
+      a:active {
+        background-color: #552e5a;
+        color: #ecffa3;
+      }
     </style>
   </head>
   <body>
@@ -62,28 +65,25 @@ a:hover, a:active {
         </tr>
       </thead>
 
-      <tbody style="text-align: center;">
+      <tbody style="text-align: center">
         <% if(students.length === 0) { %>
-          <tr style="height: 5rem; font-size: larger; font-weight: 700;">
-            <td colspan="5">No data found</td>
-          </tr>  
-        <% } else { %>
-          <% for(var i = 0; i < students.length; i++) { %>
-            <tr style="height: 15vh">
-              <td><%= i+1 %></td>
-              <td><%= students[i].name %></td>
-              <td><%= students[i].id %></td>
-              <td><%= students[i].phone_no %></td>
-              <td><%= students[i].email %></td>
-              <td>
-                <a href="/delete-student?id=<%= students[i].id%>">Delete</a>
-                <a href="/update-student?id=<%= students[i].id%>">Update</a>
-              </td>
-            </tr>
-          <% } %>
-        <% } %>
+        <tr style="height: 5rem; font-size: larger; font-weight: 700">
+          <td colspan="5">No data found</td>
+        </tr>
+        <% } else { %> <% for(var i = 0; i < students.length; i++) { %>
+        <tr style="height: 15vh">
+          <td><%= i+1 %></td>
+          <td><%= students[i].name %></td>
+          <td><%= students[i].id %></td>
+          <td><%= students[i].phone_no %></td>
+          <td><%= students[i].email %></td>
+          <td>
+            <a href="/delete-student?id=<%= students[i].id%>">Delete</a>
+            <a href="/update-student?id=<%= students[i].id%>">Update</a>
+          </td>
+        </tr>
+        <% } %> <% } %>
       </tbody>
-
     </table>
   </body>
 </html>

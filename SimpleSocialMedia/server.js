@@ -23,11 +23,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 
-
-
-
-
-
+let posts = [];
 
 /* All get methods */
 app.get("/register", (req, res) => {
@@ -146,15 +142,37 @@ app.get("/update-student", (req, res) => {
   });
 });
 
+// app.get("/posts", (req, res) => {
+//   const sql =
+//     "SELECT Posts.*, Students.Name FROM Posts JOIN Students ON Posts.UserID = Students.UserID ORDER BY CreatedAt DESC";
 
+//   connection.query(sql, (err, results) => {
+//     if (err) {
+//       console.error("Error fetching posts:", err);
+//       return res.status(500).send("Internal Server Error");
+//     }
+//     res.status(200).json(results);
+//   });
+// });
 
+app.get("/posts", (req, res) => {
+  connection.query("SELECT * FROM posts", (err, result) => {
+    if (err) console.log(err);
+    // const { UserID, Content, ImageURL } = result;
+    // const newPost = {
+    //   PostID: posts.length + 1,
+    //   UserID,
+    //   Content,
+    //   ImageURL,
+    //   CreatedAt: new Date().toISOString(),
+    // };
 
+    // posts.push(newPost);
+    res.render("posts", { posts: result });
+  });
+});
 
-
-
-
-
-
+// Get method to retrieve all posts
 
 /* All post methods */
 app.post("/register", (req, res) => {
@@ -212,7 +230,7 @@ app.post("/login", (req, res) => {
     }
   );
 });
- 
+
 app.post("/update-student", (req, res) => {
   connection.connect((error) => {
     if (error) console.log(error);
@@ -261,7 +279,6 @@ app.post("/settings/change-password", (req, res) => {
           message: "CURRENT_PASSWORD_DOES_NOT_MATCH",
         });
       }
-
 
       connection.query(
         "UPDATE students SET password = ? WHERE id = ?",

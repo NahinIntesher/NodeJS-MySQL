@@ -54,12 +54,12 @@ nav a:hover {
   text-decoration: underline;
 }
 
-/* .post-container {
+.post-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-} */
+} 
 .post-sending-section {
   padding: 1rem 0;
   width: 100vw;

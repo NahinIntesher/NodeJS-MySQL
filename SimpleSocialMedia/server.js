@@ -23,6 +23,12 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 
+
+
+
+
+
+
 /* All get methods */
 app.get("/register", (req, res) => {
   if (req.cookies.userRegistered) {
@@ -140,8 +146,18 @@ app.get("/update-student", (req, res) => {
   });
 });
 
+
+
+
+
+
+
+
+
+
+
 /* All post methods */
-app.post("/register.html", (req, res) => {
+app.post("/register", (req, res) => {
   const { name, phone_no, email, password, confirmPassword } = req.body;
 
   if (password !== confirmPassword) {
@@ -149,8 +165,8 @@ app.post("/register.html", (req, res) => {
   }
 
   connection.query(
-    "INSERT INTO students (name, phone_no, email, password, confirmPassword) VALUES (?, ?, ?, ?, ?)",
-    [name, phone_no, email, password, confirmPassword],
+    "INSERT INTO students (name, phone_no, email, password) VALUES (?, ?, ?, ?)",
+    [name, phone_no, email, password],
     (err, results) => {
       if (err) {
         return res.status(500).send("Error registering user");
@@ -161,7 +177,7 @@ app.post("/register.html", (req, res) => {
   );
 });
 
-app.post("/login.html", (req, res) => {
+app.post("/login", (req, res) => {
   const { email, password } = req.body;
 
   connection.query(
@@ -196,7 +212,7 @@ app.post("/login.html", (req, res) => {
     }
   );
 });
-
+ 
 app.post("/update-student", (req, res) => {
   connection.connect((error) => {
     if (error) console.log(error);
@@ -235,11 +251,17 @@ app.post("/settings/change-password", (req, res) => {
 
       const user = result[0];
 
+      if (confirmNewPassword !== newPassword) {
+        return res.render("changepassword", {
+          message: "CONFIRM_PASSWORD_DOES_NOT_MATCH",
+        });
+      }
       if (user.password !== currentPassword) {
         return res.render("changepassword", {
           message: "CURRENT_PASSWORD_DOES_NOT_MATCH",
         });
       }
+
 
       connection.query(
         "UPDATE students SET password = ? WHERE id = ?",
@@ -249,11 +271,6 @@ app.post("/settings/change-password", (req, res) => {
             console.log(err);
             return res.render("changepassword", {
               message: "PASSWORD_UPDATE_FAILED",
-            });
-          }
-          if (confirmNewPassword !== newPassword) {
-            return res.render("changepassword", {
-              message: "CONFIRM_PASSWORD_DOES_NOT_MATCH",
             });
           }
 

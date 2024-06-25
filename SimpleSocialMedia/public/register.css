@@ -14,8 +14,7 @@ body {
   min-height: 100vh;
   width: 100%;
   padding: 0 10px;
-  background: #111;
-  color: #cbf078;
+  color: #ecffa3;
 }
 
 body::before {
@@ -23,8 +22,7 @@ body::before {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: url("https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
-    #000;
+  background: url("images/Purple\ Mountains.jpg");
   background-position: center;
   background-size: cover;
   z-index: -1;
@@ -35,8 +33,8 @@ body::before {
   border-radius: 8px;
   padding: 30px;
   text-align: center;
-  border: 1px solid #cbf078;
-  backdrop-filter: blur(20px);  
+  border: 1px solid #ecffa3;
+  backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
 
@@ -48,12 +46,12 @@ form {
 h2 {
   font-size: 2rem;
   margin-bottom: 20px;
-  color: #cbf078;
+  color: #ecffa3;
 }
 
 .input-field {
   position: relative;
-  border-bottom: 2px solid #cbf078;
+  border-bottom: 2px solid #ecffa3;
   margin: 20px 0;
 }
 .input-field label {
@@ -61,7 +59,7 @@ h2 {
   top: 50%; /* Adjusted to center vertically */
   left: 0;
   transform: translateY(-25%);
-  color: #cbf078;
+  color: #ecffa3;
   font-size: 16px;
   font-weight: 700;
   pointer-events: none;
@@ -93,11 +91,11 @@ h2 {
   align-items: center;
   justify-content: space-between;
   margin: 25px 0 35px 0;
-  color: #cbf078;
+  color: #ecffa3;
 }
 
 #remember {
-  accent-color: #cbf078;
+  accent-color: #ecffa3;
 }
 
 .forget label {
@@ -110,7 +108,7 @@ h2 {
 }
 
 .wrapper a {
-  color: #cbf078;
+  color: #ecffa3;
   text-decoration: none;
 }
 
@@ -119,8 +117,8 @@ h2 {
 }
 
 button {
-  background: #cbf078;
-  color: #000;
+  background: #ecffa3;
+  color: #552e5a;
   margin-top: 1rem;
   font-weight: 700;
   border: none;
@@ -134,13 +132,13 @@ button {
 
 button:hover {
   font-weight: 700;
-  color: #442776;
-  border-color: #cbf078;
-  background: #cbf078;
+  color: #ecffa3;
+  border-color: #ecffa3;
+  background: #552e5a;
 }
 
 .register {
   text-align: center;
   margin-top: 30px;
-  color: #cbf078;
+  color: #ecffa3;
 }

@@ -1,35 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home Page</title>
-    <link rel="stylesheet" href="/homePage.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/homePage.css" />
+  </head>
+  <body>
     <header>
-        <nav>
-            <h1>Home Page</h1>
-            <div class="nav-contents">
-                <a href="#">Home</a>
-                <a href="#">About</a>
-                <a href="#">Services</a>
-                <a href="#">Contact</a>
-                <a href="/settings">Settings</a>
-                <a href="/logout">Logout</a>
-            </div>
-            
-        </nav>
+      <nav>
+
+        <div class="image">
+          <img src="/images/Coding Profile Photo.jpg" alt="">
+        </div>
+
+        <div class="name">
+          <h2><%= students.name %></h2>
+        </div>
+        
+        <div class="nav-contents">
+          <a href="#">Home</a>
+          <a href="#">About</a>
+          <a href="#">Services</a>
+          <a href="#">Contact</a>
+          <a href="/settings">Settings</a>
+          <a href="/logout">Logout</a>
+        </div>
+      </nav>
     </header>
-    
-    <div class="hero" >
-        <h1>Welcome to Our Website </h1>
-        <h2><%= students.name %></h2>
-    </div>
 
     
-    <footer>
-        &copy; 2024 My Awesome Website. All rights reserved.
-    </footer>
-</body>
+    <div class="hero-section">
+
+
+      <div class="post-container">
+
+        <div class="post-sending-section">
+          <h3>What's on your mind?</h3>
+          <form action="/post" method="POST">
+            <textarea
+              name="postContent"
+              placeholder="Share something..."
+              rows="4"
+            ></textarea>
+            <button type="submit">Post</button>
+          </form>
+        </div>
+
+        <div class="post">
+            <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus saepe harum fugit molestias. Pariatur quas laboriosam nihil repudiandae, impedit iste alias sequi ex nobis, corrupti cumque consectetur temporibus nesciunt delectus.</h3>
+            
+            <!-- Reactions Section -->
+            <div class="reactions">
+                <button class="reaction-button">👍 Like</button>
+                <button class="reaction-button">❤️ Love</button>
+                <button class="reaction-button">😂 Haha</button>
+                <button class="reaction-button">😡 Angry</button>
+            </div>
+            
+            <!-- Comments Section -->
+            <div class="comments">
+                <h4>Comments</h4>
+                <div class="comment">
+                    <p>This is a comment. Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                    <div class="comment-reactions">
+                        <button class="reaction-button">👍 Like</button>
+                        <button class="reaction-button">❤️ Love</button>
+                        <button class="reaction-button">😂 Haha</button>
+                        <button class="reaction-button">😡 Angry</button>
+                    </div>
+                </div>
+                <!-- Add new comment -->
+                <div class="new-comment">
+                    <textarea placeholder="Write a comment..." rows="2"></textarea>
+                    <button class="submit-comment">Comment</button>
+                </div>
+            </div>
+        </div>
+        
+
+
+      </div>
+
+    </div>
+
+
+    <footer>&copy; 2024 My Awesome Website. All rights reserved.</footer>
+
+  </body>
 </html>

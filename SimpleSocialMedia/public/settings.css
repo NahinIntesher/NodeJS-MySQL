@@ -1,10 +1,8 @@
-/* settings.css */
-
 body {
   margin: 0;
   padding: 0;
-  background-color: #5aba99;
-  color: #333;
+  background-color: #ecffa3;
+  color: #552e5a;
 }
 
 .container {
@@ -16,17 +14,16 @@ body {
 .contentContainer {
   height: 100vh;
   width: 100vw;
-  /* max-width: 500px; */
   padding: 40px;
-  background-color: #3c7c8b;
+  background-color: #552e5a;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
 .title {
-  font-size: 28px;
+  font-size: 50px;
   font-weight: bold;
-  color: #ffffff;
+  color: #ecffa3;
   margin-bottom: 30px;
 }
 
@@ -41,7 +38,7 @@ body {
   display: flex;
   align-items: center;
   padding: 15px 20px;
-  background-color: beige;
+  background-color: #ecffa3;
   border: 1px solid #ddd;
   border-radius: 8px;
   cursor: pointer;
@@ -51,7 +48,7 @@ body {
 }
 
 .option:hover {
-  background-color: beige;
+  background-color: #f6e198;
   transform: scale(1.02);
 }
 
@@ -61,12 +58,12 @@ body {
 
 .icon i {
   font-size: 20px;
-  color: #888;
+  color: black;
 }
 
 .text {
   font-size: 18px;
-  color: #555;
+  color: black;
 }
 
 a.option {
@@ -75,7 +72,6 @@ a.option {
 }
 
 a.option:hover {
-  background-color: #e7e7e7;
+  background-color: #f6e198;
   transform: scale(1.02);
 }
-

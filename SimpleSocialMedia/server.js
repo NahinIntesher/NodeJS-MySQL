@@ -23,8 +23,6 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 
-let posts = [];
-
 /* All get methods */
 app.get("/register", (req, res) => {
   if (req.cookies.userRegistered) {
@@ -50,21 +48,41 @@ app.get("/", (req, res) => {
   }
 });
 
-app.get("/homepage", (req, res) => {
+app.get("/homePage", (req, res) => {
+  let decoded;
   if (req.cookies.userRegistered) {
-    let decoded = jwt.verify(req.cookies.userRegistered, "1234");
+    try {
+      decoded = jwt.verify(req.cookies.userRegistered, "1234");
+    } catch (err) {
+      console.error("JWT verification error:", err);
+      return res.redirect("/login");
+    }
     let id = decoded.id;
-    connection.connect((error) => {
-      if (error) console.log(error);
-      connection.query(
-        "SELECT * FROM students WHERE id = ?",
-        [id],
-        (err, result) => {
-          if (err) console.log(err);
-          res.render("index", { students: result[0] });
+
+    connection.query(
+      "SELECT * FROM students WHERE id = ?",
+      [id],
+      (err, result) => {
+        if (err) {
+          console.error("Error fetching student data:", err);
+          return res.status(500).send("Internal Server Error");
         }
-      );
-    });
+
+        if (result.length === 0) {
+          return res.status(404).send("Student not found");
+        }
+
+        const sql =
+          "SELECT posts.*, students.name AS studentsName FROM posts INNER JOIN students on posts.UserID = students.id ORDER BY posts.CreatedAt DESC;";
+        connection.query(sql, (err, postsResult) => {
+          if (err) {
+            console.error("Error fetching posts:", err);
+            return res.status(500).send("Internal Server Error");
+          }
+          res.render("index", { students: result[0], posts: postsResult });
+        });
+      }
+    );
   } else {
     res.redirect("/login");
   }
@@ -142,33 +160,34 @@ app.get("/update-student", (req, res) => {
   });
 });
 
-// app.get("/posts", (req, res) => {
-//   const sql =
-//     "SELECT Posts.*, Students.Name FROM Posts JOIN Students ON Posts.UserID = Students.UserID ORDER BY CreatedAt DESC";
+app.post("/posts", (req, res) => {
+  const { postContent } = req.body;
+  let decoded = jwt.verify(req.cookies.userRegistered, "1234");
+  let id = decoded.id;
 
-//   connection.query(sql, (err, results) => {
-//     if (err) {
-//       console.error("Error fetching posts:", err);
-//       return res.status(500).send("Internal Server Error");
-//     }
-//     res.status(200).json(results);
-//   });
-// });
+  connection.query(
+    "INSERT INTO posts (UserID, Content) VALUES (?, ?)",
+    [id, postContent],
+    (err, results) => {
+      if (err) {
+        console.error("Error inserting post:", err);
+        return res.status(500).send("Internal Server Error");
+      }
+      res.redirect("/homePage");
+    }
+  );
+});
 
 app.get("/posts", (req, res) => {
-  connection.query("SELECT * FROM posts", (err, result) => {
-    if (err) console.log(err);
-    // const { UserID, Content, ImageURL } = result;
-    // const newPost = {
-    //   PostID: posts.length + 1,
-    //   UserID,
-    //   Content,
-    //   ImageURL,
-    //   CreatedAt: new Date().toISOString(),
-    // };
+  const sql =
+    "SELECT Posts.*, Students.Name FROM Posts JOIN Students ON Posts.UserID = Students.UserID ORDER BY CreatedAt DESC";
 
-    // posts.push(newPost);
-    res.render("posts", { posts: result });
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error("Error fetching posts:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+    res.render("/posts", { posts: results });
   });
 });
 
@@ -299,6 +318,21 @@ app.post("/settings/change-password", (req, res) => {
     }
   );
 });
+
+app.locals.getTimeString = function (postDate) {
+  let currentTime = new Date();
+  let postTime = new Date(postDate);
+  let timeDifference = (currentTime - postTime) / 1000;
+  if (timeDifference < 60) {
+    return "Few sec ago";
+  } else if (timeDifference / 60 < 60) {
+    return Math.floor(timeDifference / 60) + " min ago";
+  } else if (timeDifference / (60 * 60) < 24) {
+    return Math.floor(timeDifference / (60 * 60)) + " hour ago";
+  } else {
+    return Math.floor(timeDifference / (60 * 60 * 24)) + " day ago";
+  }
+};
 
 // Start the server
 app.listen(3000);

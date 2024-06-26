@@ -104,24 +104,48 @@ nav a:hover {
   background-color: hsl(273, 77%, 19%);
 }
 
-/* .post-section {
-  width: 97vw;
-  margin-top: 1rem;
-} */
+.post-section {
+  /* background-color: aliceblue; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
 /* Post Section */
 .post {
-  width: 97vw;
+  border: 2px solid black;
+  width: 95vw;
   background-color: #ecffa3;
   border-radius: 0.5rem; /* 10px */
   padding: 1rem;
   margin: 1rem 0; /* 20px 0 */
   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1); /* 0 4px 8px */
 }
-.post h3{
+.post h2{
+  color: #713679;
+}
+.post h3,h4,h5{
+  /* font-size: small; */
+  font-weight: normal;
+}
+
+.postername{
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 0;
+  color: #713679;
+
+}
+
+.postContent{
+  /* background-color: #f7ffd3; */
   font-weight: normal;
   margin: 0;
   font-size: 1rem;
+  padding: 0.2rem 1rem;
+  border-radius: 0.5rem; /* 10px */
+  /* box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1); 0 4px 8px */
 }
 
 /* Reactions Section */
@@ -129,13 +153,15 @@ nav a:hover {
   display: flex;
   justify-content: flex-start;
   margin-top: 1rem; /* 10px 0 */
+  
+  padding-top: 0.625rem; 
   margin-bottom: 0.5rem; /* 10px 0 */
 }
 .reaction-button {
   background-color: #3c7c8b;
   color: white;
   border: none;
-  border-radius: 0.3125rem; /* 5px */
+  border-radius: 10%; /* 5px */
   padding: 0.3125rem 0.625rem; /* 5px 10px */
   margin-right: 0.625rem; /* 10px */
   cursor: pointer;
@@ -151,7 +177,8 @@ nav a:hover {
   padding-top: 0.625rem; 
 }
 .comments h4 {
-  margin: 0.625rem 0; /* 10px 0 */
+  margin: 0.625rem 0;
+  font-weight: normal; /* 10px 0 */
 }
 .comment {
   background-color: #ebf5c2;

@@ -3,21 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="posts.css" />
+    <link rel="stylesheet" href="homepage.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Document</title>
   </head>
   <body>
-    <div class="post">
-      <% for(var i = 0; i < posts.length; i++) { %>
-      <h3><%= posts[i].Content %></h3>
+    <% for(var i = 0; i < posts.length; i++) { %>
+      <div class="post">
 
-      <!-- Reactions Section -->
-      <div class="reactions">
-        <button class="reaction-button">👍 Like</button>
-        <button class="reaction-button">❤️ Love</button>
-        <button class="reaction-button">😂 Haha</button>
-        <button class="reaction-button">😡 Angry</button>
-      </div>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <img src="/images/Coding Profile Photo.jpg" style="border-radius: 50%; border: 2px solid blueviolet;">
+          <div style="display: flex; align-items: end; gap: 1rem">
+            <h2> <%= posts[i].studentsName %></h2>
+            <h5> <%= getTimeString(posts[i].CreatedAt) %> </h5> 
+          </div>
+        </div>
+
+        <!-- <h4> <%= getTimeString(posts[i].CreatedAt) %> </h4> -->
+        <h3><%= posts[i].Content %></h3>
+
+        <!-- Reactions Section -->
+        <div class="reactions">
+          <button class="reaction-button">👍</button>
+          <button class="reaction-button">❤️</button>
+          <button class="reaction-button">😂</button>
+          <button class="reaction-button">😡</button>
+        </div>
 
       <!-- Comments Section -->
       <div class="comments">
@@ -25,10 +36,10 @@
         <div class="comment">
           <p>This is a dummy comment.</p>
           <div class="comment-reactions">
-            <button class="reaction-button">👍 Like</button>
-            <button class="reaction-button">❤️ Love</button>
-            <button class="reaction-button">😂 Haha</button>
-            <button class="reaction-button">😡 Angry</button>
+            <button class="reaction-button">👍</button>
+            <button class="reaction-button">❤️</button>
+            <button class="reaction-button">😂</button>
+            <button class="reaction-button">😡</button>
           </div>
         </div>
 
@@ -38,7 +49,7 @@
           <button class="submit-comment">Comment</button>
         </div>
       </div>
-      <% } %>
     </div>
+    <% } %>
   </body>
 </html>

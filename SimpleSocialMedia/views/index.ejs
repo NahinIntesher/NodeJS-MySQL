@@ -9,15 +9,12 @@
   <body>
     <header>
       <nav>
-
         <div class="image">
           <img src="/images/Coding Profile Photo.jpg" alt="">
         </div>
-
         <div class="name">
           <h2><%= students.name %></h2>
         </div>
-        
         <div class="nav-contents">
           <a href="#">Home</a>
           <a href="#">About</a>
@@ -29,15 +26,12 @@
       </nav>
     </header>
 
-    
     <div class="hero-section">
-
-
       <div class="post-container">
-
         <div class="post-sending-section">
           <h3>What's on your mind?</h3>
-          <form action="/post" method="POST">
+
+          <form action="/posts" method="POST">
             <textarea
               name="postContent"
               placeholder="Share something..."
@@ -45,47 +39,22 @@
             ></textarea>
             <button type="submit">Post</button>
           </form>
+
         </div>
 
-        <div class="post">
-            <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. </h3>
-            
-            <!-- Reactions Section -->
-            <div class="reactions">
-                <button class="reaction-button">👍 Like</button>
-                <button class="reaction-button">❤️ Love</button>
-                <button class="reaction-button">😂 Haha</button>
-                <button class="reaction-button">😡 Angry</button>
-            </div>
-            
-            <!-- Comments Section -->
-            <div class="comments">
-                <h4>Comments</h4>
-                <div class="comment">
-                    <p>This is a comment. Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                    <div class="comment-reactions">
-                        <button class="reaction-button">👍 Like</button>
-                        <button class="reaction-button">❤️ Love</button>
-                        <button class="reaction-button">😂 Haha</button>
-                        <button class="reaction-button">😡 Angry</button>
-                    </div>
-                </div>
-                <!-- Add new comment -->
-                <div class="new-comment">
-                    <textarea placeholder="Write a comment..." rows="2"></textarea>
-                    <button class="submit-comment">Comment</button>
-                </div>
-            </div>
-        </div>
-        
+      
 
+
+
+        <div class="post-section">
+        <!-- Include posts.ejs and pass the posts data to it -->
+          <%- include('posts', { posts: posts }) %>
 
       </div>
 
+      </div>
     </div>
 
-
     <footer>&copy; 2024 My Awesome Website. All rights reserved.</footer>
-
   </body>
 </html>

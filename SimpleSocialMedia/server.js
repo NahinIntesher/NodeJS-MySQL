@@ -334,5 +334,37 @@ app.locals.getTimeString = function (postDate) {
   }
 };
 
+
+
+
+
+
+
+
+
+
+
+
+app.get("/api", (req, res) => { 
+  connection.query("SELECT * FROM students", (err, results) => {
+    if (err) {
+      console.error("Error fetching students:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+    res.json(results);
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
 // Start the server
 app.listen(3000);

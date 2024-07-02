@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Form</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100 p-8">
+    <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
+      <h1 class="text-2xl font-bold mb-6">Employee Form</h1>
+      <form
+        id="employeeForm"
+        action="/add-employee"
+        method="post"
+        class="space-y-4"
+      >
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-700"
+            >Name:</label
+          >
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+          />
+        </div>
+        <div>
+          <label
+            for="joining_date"
+            class="block text-sm font-medium text-gray-700"
+            >Joining Date:</label
+          >
+          <input
+            type="datetime-local"
+            id="joining_date"
+            name="joining_date"
+            required
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+          />
+        </div>
+        <div>
+          <label
+            for="agreementTill"
+            class="block text-sm font-medium text-gray-700"
+            >Agreement Till:</label
+          >
+          <input
+            type="datetime-local"
+            id="agreementTill"
+            name="agreementTill"
+            required
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+          />
+        </div>
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700"
+            >Email:</label
+          >
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+          />
+        </div>
+        <div>
+          <label for="salary" class="block text-sm font-medium text-gray-700"
+            >Salary:</label
+          >
+          <input
+            type="number"
+            step="0.01"
+            id="salary"
+            name="salary"
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+          />
+        </div>
+        <div>
+          <label
+            for="phone_number"
+            class="block text-sm font-medium text-gray-700"
+            >Phone Number:</label
+          >
+          <input
+            type="tel"
+            id="phone_number"
+            name="phone_number"
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+          />
+        </div>
+        <button
+          type="submit"
+          class="w-full bg-blue-500 text-white py-2 rounded-md shadow-md hover:bg-blue-600"
+        >
+          Add Employee
+        </button>
+      </form>
+
+      <h2 class="text-xl font-bold mt-8 mb-4">Delete Employee</h2>
+      <form
+        id="deleteForm"
+        action="/delete-employee"
+        method="post"
+        class="space-y-4"
+      >
+        <div>
+          <label
+            for="employeeId"
+            class="block text-sm font-medium text-gray-700"
+            >Employee ID:</label
+          >
+          <input
+            type="number"
+            id="employeeId"
+            name="employeeId"
+            required
+            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+          />
+        </div>
+        <button
+          type="submit"
+          class="w-full bg-red-500 text-white py-2 rounded-md shadow-md hover:bg-red-600"
+        >
+          Delete Employee
+        </button>
+      </form>
+    </div>
+  </body>
+</html>

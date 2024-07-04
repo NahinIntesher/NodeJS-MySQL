@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const jwt = require("jsonwebtoken");
 const cookies = require("cookie-parser");
-
+const cors = require("cors");
 // Connect to the database
 connection.connect((err) => {
   if (err) {
@@ -16,6 +16,7 @@ connection.connect((err) => {
 });
 
 // Middleware
+app.use(cors());
 app.use(cookies());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -180,14 +181,14 @@ app.post("/posts", (req, res) => {
 
 app.get("/posts", (req, res) => {
   const sql =
-    "SELECT Posts.*, Students.Name FROM Posts JOIN Students ON Posts.UserID = Students.UserID ORDER BY CreatedAt DESC";
+    "SELECT posts.*, students.name FROM posts JOIN students ON posts.UserID = students.id ORDER BY CreatedAt DESC";
 
-  db.query(sql, (err, results) => {
+  connection.query(sql, (err, results) => {
     if (err) {
       console.error("Error fetching posts:", err);
       return res.status(500).send("Internal Server Error");
     }
-    res.render("/posts", { posts: results });
+    res.render("posts", { posts: results });
   });
 });
 
@@ -334,37 +335,18 @@ app.locals.getTimeString = function (postDate) {
   }
 };
 
+app.get("/postsAPI", (req, res) => {
+  const sql =
+    "SELECT posts.*, students.name FROM posts JOIN students ON posts.UserID = students.id ORDER BY CreatedAt DESC";
 
-
-
-
-
-
-
-
-
-
-
-app.get("/api", (req, res) => { 
-  connection.query("SELECT * FROM students", (err, results) => {
+  connection.query(sql, (err, results) => {
     if (err) {
-      console.error("Error fetching students:", err);
+      console.error("Error fetching posts:", err);
       return res.status(500).send("Internal Server Error");
     }
     res.json(results);
   });
 });
 
-
-
-
-
-
-
-
-
-
-
-
 // Start the server
-app.listen(3000);
+app.listen(3001);

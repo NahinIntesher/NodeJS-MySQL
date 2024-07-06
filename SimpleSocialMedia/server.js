@@ -209,7 +209,8 @@ app.post("/register", (req, res) => {
       if (err) {
         return res.status(500).send("Error registering user");
       }
-      res.redirect("/login");
+      // res.redirect("/login");
+      return res.status(201).send({ massage: "Registered successfully!" });
       // res.send("Registered successfully!");
     }
   );
@@ -219,35 +220,38 @@ app.post("/login", (req, res) => {
   const { email, password } = req.body;
 
   connection.query(
-    "SELECT * FROM students WHERE email = ?",
-    [email],
-    (err, results) => {
-      if (err) {
-        console.error("Database query error:", err);
-        return res
-          .status(500)
-          .send("An error occurred while retrieving user data");
-      }
+      "SELECT * FROM students WHERE email = ?",
+      [email],
+      (err, results) => {
+          if (err) {
+              console.error("Database query error:", err);
+              return res
+                  .status(500)
+                  .send("An error occurred while retrieving user data");
+          }
 
-      if (results.length === 0) {
-        return res.status(401).send("Invalid email or password");
-      }
+          if (results.length === 0) {
+              return res.status(401).send("Invalid credentials");
+          }
 
-      const storedPassword = results[0].password;
-      const uid = results[0].id;
-      // Compare hashed password (recommended to hash passwords before storing)
-      if (storedPassword !== password) {
-        return res.status(401).send("Invalid email or password");
-      }
+          const storedPassword = results[0].password;
+          const uid = results[0].id;
 
-      let token = jwt.sign({ id: uid }, "1234", { expiresIn: "10d" });
-      let cookieOptions = {
-        expiresIn: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
-        httpOnly: true,
-      };
-      res.cookie("userRegistered", token, cookieOptions);
-      res.redirect("/");
-    }
+          if (storedPassword !== password) {
+              return res.status(401).send("Invalid email or password");
+          }
+
+          let token = jwt.sign({ id: uid }, "1234", { expiresIn: "10d" });
+          let cookieOptions = {
+              expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
+              httpOnly: true,
+          };
+          res.cookie("userRegistered", token, cookieOptions);
+          res.send({
+              logged: token,
+              result: results[0],
+          });
+      }
   );
 });
 

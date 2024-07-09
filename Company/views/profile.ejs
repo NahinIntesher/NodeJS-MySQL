@@ -1,0 +1,54 @@
+<!-- profile.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin Profile</title>
+    <!-- Include Tailwind CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/homePage.css" />
+  </head>
+  <body class="w-screen h-screen">
+    <div
+      class="w-screen h-screen py-12 px-4 sm:px-6 lg:px-8"
+      style="backdrop-filter: blur(50px)"
+    >
+      <div
+        class="text-white overflow-hidden sm:rounded-lg flex flex-col gap-10"
+      >
+        <div class="px-4 py-5 sm:px-6 flex flex-col gap-10">
+          <h3 class="text-lg leading-6 font-semibold text-3xl">
+            Admin Profile Details
+          </h3>
+        </div>
+        <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+          <dl class="sm:divide-y sm:divide-gray-200">
+            <div class="py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-m font-medium">Name</dt>
+              <dd class="mt-1 text-m sm:col-span-2"><%= admin.name %></dd>
+            </div>
+            <div class="py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-m font-medium">Email</dt>
+              <dd class="mt-1 text-m sm:col-span-2"><%= admin.email %></dd>
+            </div>
+            <div class="py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-m font-medium">Department</dt>
+              <dd class="mt-1 text-m sm:col-span-2"><%= admin.dept_name %></dd>
+            </div>
+          </dl>
+        </div>
+        <div>
+          <a
+            href="/"
+            class="bg-blue-500 text-white rounded py-2 px-4 shadow-lg transform transition duration-300 ease-in-out hover:bg-blue-600 hover:scale-105"
+          >
+            Back To Home
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

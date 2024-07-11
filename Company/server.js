@@ -8,6 +8,11 @@ const cookies = require("cookie-parser");
 const cors = require("cors");
 const verifyToken = require("./middleware");
 const port = 3000;
+const bcrypt = require("bcrypt");
+
+
+
+
 // Middleware
 app.use(cors());
 app.use(cookies());
@@ -16,6 +21,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
+
+
 
 // Connect to the database
 connection.connect((error) => {
@@ -26,6 +33,56 @@ connection.connect((error) => {
   console.log("Connected to database.");
 });
 
+
+
+
+
+
+app.get("/registrationPage", (req, res) => {
+  if (req.cookies.userRegistered) {
+    res.redirect("/");
+  } else {
+    res.sendFile(path.join(__dirname, "registrationPage.html"));
+  }
+    
+});
+app.post("/registrationPage", (req, res) => {
+  const token = req.cookies.userRegistered;
+  if (token) {
+    return res.redirect("/");
+  }
+
+  const { name, email, password, dept_name, admin_key } = req.body;
+  if(admin_key !== '1234'){
+    res.redirect('back');
+  }
+
+  bcrypt.hash(password, 10)
+  .then(hashedPassword => {
+    connection.query(
+      "INSERT INTO admins (name, email, password, dept_name, admin_key) VALUES (?, ?, ?, ?, ?)",
+      [name, email, hashedPassword, dept_name, admin_key],
+      (err) => {
+        if (err) {
+          return res.status(500).send("Error registering user");
+        }
+        else {
+          return res.redirect('/loginPage');
+        }
+      }
+    );
+  })
+  .catch(function(error){
+      throw error;
+  });
+});
+
+
+
+
+
+
+
 app.get("/loginPage", (req, res) => {
   if (req.cookies.userRegistered) {
     res.redirect("/");
@@ -33,15 +90,12 @@ app.get("/loginPage", (req, res) => {
     res.sendFile(path.join(__dirname, "loginPage.html"));
   }
 });
-app.get("/homePage/add-employee", (req, res) => {
-  if (!req.cookies.userRegistered) {
-    res.redirect("/loginPage");
-  } else {
-    res.sendFile(path.join(__dirname, "addEmployee.html"));
-  }
-});
-
 app.post("/loginPage", (req, res) => {
+  const token = req.cookies.userRegistered;
+  if (token) {
+    return res.redirect("/");
+  }
+
   const { email, password } = req.body;
 
   connection.query(
@@ -59,23 +113,36 @@ app.post("/loginPage", (req, res) => {
         return res.status(401).send("Invalid credentials");
       }
 
-      const storedPassword = results[0].password;
-      const uid = results[0].id;
 
-      if (storedPassword !== password) {
-        return res.status(401).send("Invalid email or password");
-      }
-
-      const token = jwt.sign({ id: uid }, "1234", { expiresIn: "10d" });
-      const cookieOptions = {
-        expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
-        httpOnly: true,
-      };
-      res.cookie("userRegistered", token, cookieOptions);
-      res.redirect("/homePage");
+      bcrypt
+      .compare(password, results[0].password)
+      .then(function(isMatched) {
+        if(isMatched) {
+          const uid = results[0].id;
+        
+          const token = jwt.sign({ id: uid }, "1234", { expiresIn: "10d" });
+          const cookieOptions = {
+            expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
+            httpOnly: true,
+          };
+          res.cookie("userRegistered", token, cookieOptions);
+          res.redirect("/homePage");
+        }
+        else {
+          return res.status(401).send("Invalid email or password");
+        }
+      })
+      .catch(err => console.error(err.message));  
     }
   );
 });
+
+
+
+
+
+
+
 
 app.get("/", (req, res) => {
   if (req.cookies.userRegistered) {
@@ -84,7 +151,6 @@ app.get("/", (req, res) => {
     res.redirect("/loginPage");
   }
 });
-
 app.get("/homePage", verifyToken, (req, res) => {
   const userId = req.userId;
 
@@ -107,8 +173,8 @@ app.get("/homePage", verifyToken, (req, res) => {
 
       // Fetch employees under the same department
       connection.query(
-        "SELECT * FROM employee WHERE dept_name = ?",
-        [deptName],
+        "SELECT * FROM employee WHERE adminId = ?",
+        [userId],
         (err, employeeResult) => {
           if (err) {
             console.error("Error fetching employee data:", err);
@@ -123,36 +189,37 @@ app.get("/homePage", verifyToken, (req, res) => {
   );
 });
 
-// Add a new employee
-app.post("/homePage/add-employee", (req, res) => {
-  const { name, joining_date, agreementTill, email, salary, phone_number, dept_name} = req.body;
-  const sql =
-    "INSERT INTO employee (name, joining_date, agreementTill, email, salary, phone_number, dept_name) VALUES (?, ?, ?, ?, ?, ?, ?)";
-  connection.query(
-    sql,
-    [name, joining_date, agreementTill, email, salary, phone_number, dept_name],
-    (err, result) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send("Server error");
-        return;
-      }
-      res.redirect("/homePage/add-employee");
+
+
+
+
+
+// Fetch all employees
+app.get("/homePage/employee", verifyToken, (req, res) => {
+  const adminId = req.userId;
+  console.log(adminId);
+
+  const sql = "SELECT * FROM employee where adminId=?";
+  connection.query(sql, [adminId], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Server error");
+      return;
     }
-  );
-});
-app.get("/logoutPage", (req, res) => {
-  res.clearCookie("userRegistered");
-  res.redirect("/loginPage");
+    res.render("employee", { employee: result });
+  });
 });
 
+
+
+
+
+
 // Delete an employee
-// Route to confirm deletion
-app.get("/homePage/delete-employee", (req, res) => {
+app.get("/homePage/delete-employee", verifyToken, (req, res) => {
   const { id } = req.query;
   res.render("confirmDelete", { id: id });
 });
-
 // Route to handle deletion
 app.post("/homePage/delete-employee", (req, res) => {
   const { id, confirm } = req.body;
@@ -172,25 +239,61 @@ app.post("/homePage/delete-employee", (req, res) => {
   }
 });
 
-// Fetch all employees
-app.get("/homePage/employee", (req, res) => {
-  const { dept_name } = req.query;
 
-  const sql = "SELECT * FROM employee where dept_name=?";
-  connection.query(sql, [dept_name], (err, result) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send("Server error");
-      return;
+
+
+
+
+
+
+// Add a new employee
+app.get("/homePage/add-employee", verifyToken,(req, res) => {
+  const  id = req.userId;
+  console.log(id);
+  connection.query(
+    "SELECT dept_name FROM admins WHERE id = ?",
+    [id],
+    (err, dept) => {
+      if (err) {
+        console.error("Error fetching employee data:", err);
+        return res.status(500).send("Internal Server Error");
+      }
+      else{
+        res.render("addEmployee", {adminDeptName: dept[0].dept_name});  
+
+      }
     }
-    res.render("employee", { employee: result });
-  });
+  );
+});
+app.post("/homePage/add-employee", verifyToken, (req, res) => {
+  const { name, joining_date, agreementTill, email, salary, phone_number, dept_name} = req.body;
+
+  const userId = req.userId;
+    const sql =
+    "INSERT INTO employee (name, joining_date, agreementTill, email, salary, phone_number, adminId) VALUES (?, ?, ?, ?, ?, ?, ?)";
+  connection.query(
+    sql,
+    [name, joining_date, agreementTill, email, salary, phone_number, userId],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Server error");
+        return;
+      }
+      res.redirect("/homePage");
+    }
+  );
+
 });
 
-app.get("/homePage/profile", (req, res) => {
+
+
+
+
+
+
+app.get("/homePage/profile", verifyToken, (req, res) => {
   const { id } = req.query;
-  console.log(req.query);
-  console.log(id);
 
   if (!id) {
     return res.status(400).send("Admin ID is required");
@@ -212,6 +315,17 @@ app.get("/homePage/profile", (req, res) => {
     res.render("profile", { admin });
   });
 });
+
+
+
+
+
+
+app.get("/logoutPage", (req, res) => {
+  res.clearCookie("userRegistered");
+  res.redirect("/loginPage");
+});
+
 
 // Start the server
 app.listen(port, () => {

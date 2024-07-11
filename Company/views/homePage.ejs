@@ -13,10 +13,11 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/homePage.css" />
+    
   </head>
-  <body class="bg-gray-100 min-h-screen flex">
+  <body class="bg-gray-100 min-h-screen flex" style=" height: 100dvh;">
     <!-- Sidebar -->
-    <div class="w-56 sidebar bg-gray-900">
+    <div class="flex-1 sidebar bg-gray-900" style="height: 100%;">
       <div class="flex flex-col items-center mt-4">
         <ul class="flex flex-col w-full gap-3">
           <li>
@@ -30,7 +31,7 @@
           </li>
           <li>
             <a
-              href="/homePage/employee?dept_name=<%= admin.dept_name %>"
+              href="/homePage/employee?adminID=<%= admin.id %>" 
               class="flex items-center py-2 px-3 text-white hover:bg-gray-800 text-sm"
             >
               <i class="bi bi-people text-lg mr-1"></i>
@@ -39,7 +40,7 @@
           </li>
           <li>
             <a
-              href="/homePage/add-employee"
+              href="/homePage/add-employee?adminId=<%= admin.id %>"
               class="flex items-center py-2 px-3 text-white hover:bg-gray-800 text-sm"
             >
               <i class="bi bi-person-plus text-lg mr-1"></i>
@@ -69,7 +70,7 @@
     </div>
 
     <!-- Main Content -->
-    <div class="flex-1 flex flex-col">
+    <div class="" style="flex: 4; height: 100%; overflow-y: scroll;">
       <div class="flex justify-center items-center bg-gray-900 text-white py-3">
         <h1 class="text-xl font-serif">
           Welcome to your dashboard <%= admin.name %>
@@ -79,7 +80,7 @@
       <div class="p-2">
         <div
           class="grid gap-3 md:grid-cols-2 lg:grid-cols-3"
-          style="backdrop-filter: blur(200px)"
+          style="backdrop-filter: blur(100px)"
         >
           <div class="border p-3 rounded-lg shadow-md">
             <h5 class="text-sm font-semibold mb-4">Department</h5>
@@ -115,7 +116,7 @@
                 <%= emp.name %>
               </h4>
             </div>
-            <div class="p-2" style="backdrop-filter: blur(200px)">
+            <div class="p-2" style="backdrop-filter: blur(100px)">
               <div class="flex justify-between mb-1">
                 <p>ID:</p>
                 <p class="text-xs"><%= emp.id %></p>
@@ -144,10 +145,6 @@
                 <p>Salary:</p>
                 <p class="text-xs">$<%= emp.salary.toFixed(2) %></p>
               </div>
-              <div class="flex justify-between mb-1">
-                <p>Department:</p>
-                <p class="text-xs"><%= admin.dept_name %></p>
-              </div>
             </div>
           </div>
           <% }) %>
@@ -155,11 +152,6 @@
       </div>
     </div>
 
-    <script>
-      function handleLogout() {
-        // Add your logout logic here
-        console.log("Logout function triggered");
-      }
-    </script>
+    
   </body>
 </html>

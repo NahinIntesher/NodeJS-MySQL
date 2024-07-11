@@ -1,84 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Employee List</title>
-  <link
-    href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-    rel="stylesheet"
-  />
-  <link rel="stylesheet" href="/homePage.css" />
-</head>
-<body class="bg-gray-100" style="backdrop-filter: blur(5px)">
-  <div class="flex flex-col max-w-4xl mx-auto p-6">
-    
-    <div class="flex justify-between items-center mb-5">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee List</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/homePage.css" />
+  </head>
+  <body class="bg-gray-100 flex flex-col" style="display: flex; height: 100dvh; backdrop-filter: blur(5px)">
+
+    <div class="flex justify-evenly items-center mb-5 mt-6" style="display: flex; position: static;">
       <h1 class="text-3xl font-bold mb-4 text-yellow-200">Employees List</h1>
       <a
-      href="/"
-      class="mt-4 bg-blue-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-blue-600 text-center text-sm"
-    >
-      Back to Home
-    </a>
-    </div>
-    <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-      <% employee.forEach(emp => { %>
-      <div
-        class="rounded-lg shadow-md text-sm overflow-hidden transform transition-transform duration-300 ease-in-out"
-        style="backdrop-filter: blur(200px)"
+        href="/"
+        class="border p-2 rounded-lg flex items-center text-white bg-gray-800 hover:bg-green-800"
       >
-        <div class="bg-gradient-to-r from-purple-900 to-blue-900 p-3">
-          <h4 class="text-base font-semibold text-white mb-2">
-            <%= emp.name %>
-          </h4>
-        </div>
-        <div class="p-3">
-          <div class="flex justify-between mb-1">
-            <p>ID:</p>
-            <p class="text-xs"><%= emp.id %></p>
-          </div>
-          <div class="flex justify-between mb-1">
-            <p>Email:</p>
-            <p class="text-xs"><%= emp.email %></p>
-          </div>
-          <div class="flex justify-between mb-1">
-            <p>Phone:</p>
-            <p class="text-xs"><%= emp.phone_number %></p>
-          </div>
-          <div class="flex justify-between mb-1">
-            <p>Joining Date:</p>
-            <p class="text-xs"><%= emp.joining_date.toLocaleDateString() %></p>
-          </div>
-          <div class="flex justify-between mb-1">
-            <p>Agreement Till:</p>
-            <p class="text-xs"><%= emp.agreementTill.toLocaleDateString() %></p>
-          </div>
-          <div class="flex justify-between mb-1">
-            <p>Salary:</p>
-            <p class="text-xs">$<%= emp.salary.toFixed(2) %></p>
-          </div>
-          <div class="flex justify-between mb-1">
-            <p>Department:</p>
-            <p class="text-xs"><%= emp.dept_name %></p>
-          </div>
-          <div class="flex justify-between items-center mt-2">
-            <a
-              href="/homePage/update-employee?id=<%= emp.id %>"
-              class="bg-blue-500 text-white py-1 px-2 rounded-md hover:bg-blue-600 text-xs"
-              >Update</a
-            >
-            <a
-              href="/homePage/delete-employee?id=<%= emp.id %>"
-              class="bg-red-500 text-white py-1 px-2 rounded-md hover:bg-red-600 text-xs"
-              >Remove</a
-            >
-          </div>
-        </div>
-      </div>
-      <% }) %>
+        <i class="bi bi-house-door-fill text-2xl mr-2"></i>
+        Back to Home
+      </a>
     </div>
-    
-  </div>
-</body>
+
+    <div class="flex-1 flex-col max-w-4xl mx-auto p-6" style="flex: 4; height: 100%;width: 100% ;overflow-y: scroll;">
+      <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3" ">
+        <% employee.forEach(emp => { %>
+        <div
+          class="rounded-lg shadow-md text-sm overflow-hidden transform transition-transform duration-300 ease-in-out"
+          style="backdrop-filter: blur(200px)"
+        >
+          <div class="bg-gradient-to-r from-purple-900 to-blue-900 p-3">
+            <h4 class="text-base font-semibold text-white mb-2">
+              <%= emp.name %>
+            </h4>
+          </div>
+          <div class="p-3">
+            <div class="flex justify-between mb-1">
+              <p>ID:</p>
+              <p class="text-xs"><%= emp.id %></p>
+            </div>
+            <div class="flex justify-between mb-1">
+              <p>Email:</p>
+              <p class="text-xs"><%= emp.email %></p>
+            </div>
+            <div class="flex justify-between mb-1">
+              <p>Phone:</p>
+              <p class="text-xs"><%= emp.phone_number %></p>
+            </div>
+            <div class="flex justify-between mb-1">
+              <p>Joining Date:</p>
+              <p class="text-xs"><%= emp.joining_date.toLocaleDateString() %></p>
+            </div>
+            <div class="flex justify-between mb-1">
+              <p>Agreement Till:</p>
+              <p class="text-xs"><%= emp.agreementTill.toLocaleDateString() %></p>
+            </div>
+            <div class="flex justify-between mb-1">
+              <p>Salary:</p>
+              <p class="text-xs">$<%= emp.salary.toFixed(2) %></p>
+            </div>
+           
+            <div class="flex justify-between items-center mt-2">
+              <a
+                href="/homePage/update-employee?id=<%= emp.id %>"
+                class="bg-blue-500 text-white py-1 px-2 rounded-md hover:bg-blue-600 text-xs"
+                >Update</a
+              >
+              <a
+                href="/homePage/delete-employee?id=<%= emp.id %>"
+                class="bg-red-500 text-white py-1 px-2 rounded-md hover:bg-red-600 text-xs"
+                >Remove</a
+              >
+            </div>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+
+
+  </body>
 </html>

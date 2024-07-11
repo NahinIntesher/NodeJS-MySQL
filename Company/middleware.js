@@ -9,7 +9,7 @@ const verifyToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, "1234");
-    req.userId = decoded.id; // Store the user ID in the request object
+    req.userId = decoded.id;
     next();
   } catch (err) {
     console.error("JWT verification error:", err);

@@ -4,22 +4,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Login Form</title>
+    <title>Admin Registration Form</title>
     <link rel="stylesheet" href="/loginPage.css" />
   </head>
   <body>
     <div class="wrapper">
       <form action="" method="POST">
-        <h2>Admin Login</h2>
+        <h2>Register as Admin</h2>
 
+        <div class="input-field">
+          <input type="text" name="name" required />
+          <label>Enter your name</label>
+        </div>
         <div class="input-field">
           <input type="email" name="email" required />
           <label>Enter your email</label>
+        </div>
+        <div class="input-field">
+          <input type="text" name="dept_name" required />
+          <label>Enter your department name</label>
         </div>
 
         <div class="input-field">
           <input type="password" name="password" required />
           <label>Enter your password</label>
+        </div>
+        <div class="input-field">
+          <input type="password" name="admin_key" required />
+          <label>Enter your Admin Key</label>
         </div>
 
         <div class="forget">
@@ -30,10 +42,9 @@
           <a href="#">Forgot password?</a>
         </div>
 
-        <button type="submit">Log In</button>
-
+        <button type="submit">Submit</button>
         <div class="register">
-          <p>Don't have an account? <a href="/registrationPage">Register</a></p>
+          <p>Already have an account? <a href="/loginPage">Log In</a></p>
         </div>
       </form>
     </div>

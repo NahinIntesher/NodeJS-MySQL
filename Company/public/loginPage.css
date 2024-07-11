@@ -13,8 +13,9 @@ body {
   justify-content: center;
   min-height: 100vh;
   width: 100%;
-  padding: 0 10px;
+  padding: 5px; /* Reduced padding */
   color: #f1fd02;
+  position: relative;
 }
 
 body::before {
@@ -29,9 +30,9 @@ body::before {
 }
 
 .wrapper {
-  width: 25rem;
+  width: 20rem; /* Reduced width */
   border-radius: 8px;
-  padding: 30px;
+  padding: 20px; /* Reduced padding */
   text-align: center;
   border: 1px solid #f1fd02;
   backdrop-filter: blur(20px);
@@ -45,45 +46,46 @@ form {
 }
 
 h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
+  font-size: 1.5rem; /* Reduced font size */
+  margin-bottom: 15px; /* Reduced margin */
   color: #f1fd02;
 }
 
 .input-field {
   position: relative;
   border-bottom: 2px solid #f1fd02;
-  margin: 20px 0;
+  margin: 15px 0; /* Reduced margin */
 }
+
 .input-field label {
   position: absolute;
-  top: 50%; /* Adjusted to center vertically */
+  top: 50%;
   left: 0;
-  transform: translateY(-25%);
+  transform: translateY(-50%);
   color: #f1fd02;
-  font-size: 16px;
+  font-size: 14px; /* Reduced font size */
   font-weight: 700;
   pointer-events: none;
-  transition: 0.15s ease;
+  transition: 0.2s ease;
 }
 
 .input-field input {
   width: 100%;
-  height: 50px;
+  height: 40px; /* Reduced height */
   background: transparent;
   border: none;
   outline: none;
   word-spacing: 2px;
-  font-size: 20px;
+  font-size: 16px; /* Reduced font size */
   font-family: "Times New Roman", Times, serif;
   color: #fff;
-  padding-top: 10px; /* Adjusted padding to create space for the label */
+  padding-top: 15px; /* Adjusted padding */
 }
 
 .input-field input:focus ~ label,
 .input-field input:valid ~ label {
-  font-size: 0.8rem;
-  top: 0; /* Adjusted position when focused or valid */
+  font-size: 0.7rem; /* Reduced font size */
+  top: 0;
   transform: translateY(-50%);
 }
 
@@ -91,7 +93,7 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 25px 0 35px 0;
+  margin: 20px 0 30px 0; /* Reduced margins */
   color: #f1fd02;
 }
 
@@ -105,7 +107,7 @@ h2 {
 }
 
 .forget label p {
-  margin-left: 8px;
+  margin-left: 6px; /* Reduced margin */
 }
 
 .wrapper a {
@@ -120,13 +122,13 @@ h2 {
 button {
   background: #f1fd02;
   color: #552e5a;
-  margin-top: 1rem;
+  margin-top: 0.8rem; /* Reduced margin */
   font-weight: 700;
   border: none;
-  padding: 12px 20px;
+  padding: 10px 16px; /* Reduced padding */
   cursor: pointer;
   border-radius: 3px;
-  font-size: 16px;
+  font-size: 14px; /* Reduced font size */
   border: 2px solid transparent;
   transition: 0.3s ease;
 }
@@ -140,6 +142,6 @@ button:hover {
 
 .register {
   text-align: center;
-  margin-top: 30px;
+  margin-top: 20px; /* Reduced margin */
   color: #f1fd02;
 }

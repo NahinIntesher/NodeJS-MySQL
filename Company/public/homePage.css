@@ -1,19 +1,12 @@
 body {
   background-image: url("./images/forest.jpg");
-  background-size: cover;
+  background-size: auto;
   backdrop-filter: blur(2px);
   color: #f5fd02;
   font-family: "Times New Roman";
   font-size: larger;
 }
-html,
-body {
-  height: 100vh;
-}
-.main-content{
-  
-  height: 100vh;
-}
+
 table {
   border: 2px solid #f5fd02;
 }
@@ -21,4 +14,8 @@ tr,
 th,
 td {
   border: 2px solid #f5fd02;
+}
+.sidebar {
+  position: static;
+  height: 100rem;
 }

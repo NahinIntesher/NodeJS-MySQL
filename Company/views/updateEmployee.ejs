@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Form</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/homePage.css" />
+  </head>
+  <body class="p-8" style="backdrop-filter: blur(3px)">
+    <div
+      class="max-w-lg mx-auto p-6 rounded-lg shadow-lg bg-gradient-to-r from-gray-900 to-green-900"
+      style="backdrop-filter: blur(300px)"
+    >
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-white mr-4">Employee Information</h1>
+        <a
+          href="/homePage/employee"
+          class="border p-2 rounded-lg flex items-center text-white bg-gray-800 hover:bg-green-800"
+        >
+          <i class="bi bi-house-door-fill text-2xl mr-2"></i>
+          Goto Back
+        </a>
+      </div>
+
+      <form
+        id="employeeForm"
+        action=""
+        method="post"
+        class="space-y-4"
+      >
+        <div>
+          <label for="name" class="block text-white text-sm font-medium"
+            >Name</label
+          >
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value="<%= employee.name %>"
+            required
+            class="mt-1 block w-full border border-white bg-transparent rounded-md p-2"
+          />
+        </div>
+
+        <input
+          type="hidden"
+          id="joining_date"
+          name="joining_date"
+          value="<%= employee.joining_date.toLocaleString() %>"
+          required
+          class="mt-1 block w-full border border-white text-white bg-transparent rounded-md p-2"
+        />
+
+        <input
+          type="hidden"
+          id="agreementTill"
+          name="agreementTill"
+          value="<%= employee.agreementTill.toLocaleString() %>"
+          required
+          class="mt-1 block w-full border text-white border-white bg-transparent rounded-md p-2"
+        />
+
+        <div>
+          <label for="salary" class="block text-sm font-medium text-white"
+            >Salary:</label
+          >
+          <input
+            type="number"
+            step="0.01"
+            id="salary"
+            name="salary"
+            value="<%= employee.salary %>"
+            class="mt-1 block w-full border border-white bg-transparent rounded-md p-2"
+          />
+        </div>
+        <div>
+          <label for="phone_number" class="block text-sm font-medium text-white"
+            >Phone Number:</label
+          >
+          <input
+            type="tel"
+            id="phone_number"
+            name="phone_number"
+            value="<%= employee.phone_number%>"
+            class="mt-1 block w-full border border-white bg-transparent rounded-md p-2"
+          />
+        </div>
+        <input
+          type="hidden"
+          id="dept_name"
+          name="dept_name"
+          value="<%= employee.dept_name %>"
+          class="mt-1 block w-full border border-white bg-transparent rounded-md p-2"
+        />
+        <button
+          type="submit"
+          class="w-full bg-blue-800 text-white py-2 rounded-md shadow-md hover:bg-blue-600"
+        >
+          Done
+        </button>
+      </form>
+    </div>
+  </body>
+</html>

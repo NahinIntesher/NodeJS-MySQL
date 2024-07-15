@@ -6,16 +6,16 @@
   <link rel="stylesheet" href="/homePage.css">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class=" min-h-screen flex items-center justify-center" style="backdrop-filter: blur(5px);">
-  <div class=" p-6 border-2 border-yellow-300 rounded-lg shadow-md" style="backdrop-filter: blur(50px);">
-    <h2 class="text-2xl font-bold mb-4">Delete Confirmation</h2>
-    <p class="mb-4">Are you sure you want to delete this employee?</p>
-    <form action="/homePage/delete-employee" method="POST">
-      <input type="hidden" name="id" value="<%= id %>">
+<body class=" min-h-screen flex items-center justify-center" style="backdrop-filter: blur(2px);">
+  <div class=" p-6 border-2 border-yellow-300 rounded-xl shadow-md" style="backdrop-filter: blur(100px);">
+    <h2 class="text-3xl font-bold mb-4">Confirmation of employee Removal</h2>
+    <p class="mb-4">Are you sure you want to delete <%= employee.name %>?</p>
+    <form action="/homePage/employee/delete-employee" method="POST">
+      <input type="hidden" name="id" value="<%= employee.id %>">
       <input type="hidden" name="confirm" value="true">
       <div class="flex gap-4">
-        <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded">Yes, Delete</button>
-        <a href="/homePage" class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded">Cancel</a>
+        <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg">Yes, Delete</button>
+        <a href="/homePage/employee" class="bg-gray-300 hover:bg-gray-200 text-gray-800 py-2 px-4 rounded-lg">Cancel</a>
       </div>
     </form>
   </div>

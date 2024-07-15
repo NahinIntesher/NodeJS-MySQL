@@ -13,55 +13,54 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/homePage.css" />
-    
   </head>
-  <body class="bg-gray-100 min-h-screen flex" style=" height: 100dvh;">
+  <body class="bg-gray-100 min-h-screen flex" style="height: 100dvh">
     <!-- Sidebar -->
-    <div class="flex-1 sidebar bg-gray-900" style="height: 100%;">
+    <div class="flex-1 sidebar bg-gray-900" style="height: 100%">
       <div class="flex flex-col items-center mt-4">
         <ul class="flex flex-col w-full gap-3">
           <li>
             <a
               href="/homePage"
-              class="flex items-center py-2 px-3 text-white hover:bg-gray-800 text-sm"
+              class="flex items-center py-3 px-4 text-white hover:bg-gray-800 text-lg"
             >
-              <i class="bi bi-speedometer2 text-lg mr-1"></i>
+              <i class="bi bi-speedometer2 text-xl mr-2"></i>
               <span class="hidden sm:inline">Dashboard</span>
             </a>
           </li>
           <li>
             <a
-              href="/homePage/employee?adminID=<%= admin.id %>" 
-              class="flex items-center py-2 px-3 text-white hover:bg-gray-800 text-sm"
+              href="/homePage/employee"
+              class="flex items-center py-3 px-4 text-white hover:bg-gray-800 text-lg"
             >
-              <i class="bi bi-people text-lg mr-1"></i>
+              <i class="bi bi-people text-xl mr-2"></i>
               <span class="hidden sm:inline">Manage Employees</span>
             </a>
           </li>
           <li>
             <a
-              href="/homePage/add-employee?adminId=<%= admin.id %>"
-              class="flex items-center py-2 px-3 text-white hover:bg-gray-800 text-sm"
+              href="/homePage/add-employee"
+              class="flex items-center py-3 px-4 text-white hover:bg-gray-800 text-lg"
             >
-              <i class="bi bi-person-plus text-lg mr-1"></i>
+              <i class="bi bi-person-plus text-xl mr-2"></i>
               <span class="hidden sm:inline">Add Employee</span>
             </a>
           </li>
           <li>
             <a
-              href="/homePage/profile?id=<%= admin.id %>"
-              class="flex items-center py-2 px-3 text-white hover:bg-gray-800 text-sm"
+              href="/homePage/profile"
+              class="flex items-center py-3 px-4 text-white hover:bg-gray-800 text-lg"
             >
-              <i class="bi bi-person text-lg mr-1"></i>
+              <i class="bi bi-person text-xl mr-2"></i>
               <span class="hidden sm:inline">Profile</span>
             </a>
           </li>
           <li class="cursor-pointer p-1 rounded-lg" type="submit">
             <a
               href="/logoutPage"
-              class="flex items-center py-2 px-3 text-white hover:bg-gray-800 text-sm"
+              class="flex items-center py-3 px-4 text-white hover:bg-gray-800 text-lg"
             >
-              <i class="bi bi-power text-lg mr-1"></i>
+              <i class="bi bi-power text-xl mr-2"></i>
               <span class="hidden sm:inline">Logout</span>
             </a>
           </li>
@@ -70,88 +69,87 @@
     </div>
 
     <!-- Main Content -->
-    <div class="" style="flex: 4; height: 100%; overflow-y: scroll;">
-      <div class="flex justify-center items-center bg-gray-900 text-white py-3">
-        <h1 class="text-xl font-serif">
+    <div class="" style="flex: 4; height: 100%; overflow-y: scroll">
+      <div class="flex justify-center items-center bg-gray-900 text-white py-5">
+        <h1 class="text-3xl font-serif">
           Welcome to your dashboard <%= admin.name %>
         </h1>
       </div>
 
-      <div class="p-2">
+      <div class="p-4">
         <div
-          class="grid gap-3 md:grid-cols-2 lg:grid-cols-3"
-          style="backdrop-filter: blur(100px)"
+          class="grid gap-4 md:grid-cols-2 lg:grid-cols-3"
+          style="backdrop-filter: blur(50px)"
         >
-          <div class="border p-3 rounded-lg shadow-md">
-            <h5 class="text-sm font-semibold mb-4">Department</h5>
-            <p class="text-xs"><%= admin.dept_name %></p>
+          <div class="border p-4 rounded-lg shadow-md">
+            <h5 class="text-xl font-semibold mb-2">Department</h5>
+            
+            <p class="text-base"><%= admin.dept_name %></p>
           </div>
-          <div class="border p-3 rounded-lg shadow-md">
-            <h5 class="text-sm font-semibold mb-4">Employee</h5>
-            <hr class="my-4" />
-            <p class="text-xs">Total: <%= employees.length %></p>
+          <div class="border p-4 rounded-lg shadow-md">
+            <h5 class="text-xl font-semibold mb-2">Employee count</h5>
+            <hr class="my-2" />
+            <p class="text-base">Total: <%= employees.length %></p>
           </div>
-          <div class="border p-3 rounded-lg shadow-md">
-            <h5 class="text-sm font-semibold mb-4">Salary</h5>
-            <hr class="my-4" />
+          <div class="border p-4 rounded-lg shadow-md">
+            <h5 class="text-xl font-semibold mb-2">Salary</h5>
+            <hr class="my-2" />
             <% let totalSalary = 0; %> <% employees.forEach(emp => { %> <%
             totalSalary += parseFloat(emp.salary); %> <% }) %>
-            <p class="text-xs">Total: $ <%= totalSalary.toFixed(2) %></p>
+            <p class="text-base">Total: $ <%= totalSalary.toFixed(2) %></p>
           </div>
         </div>
 
         <h3
-          class="text-lg bg-gradient-to-r from-purple-900 to-blue-900 text-white p-2 rounded-lg text-center font-semibold mt-2 mb-4 shadow-lg"
+          class="text-2xl text-white p-5 rounded-lg text-center  mt-10 mb-5 shadow-lg" style="backdrop-filter: blur(100px)"
         >
           Your Employees
         </h3>
 
-        <div class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-          <% employees.forEach(emp => { %>
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <% let index = 1; %> <% employees.forEach(emp=> { %>
           <div
-            class="rounded-lg shadow-md text-sm overflow-hidden transform transition-transform duration-300 ease-in-out"
+            class="rounded-lg shadow-md text-base overflow-hidden transform transition-transform duration-300 ease-in-out"
           >
-            <div class="bg-gradient-to-r from-purple-900 to-blue-900 p-2">
-              <h4 class="text-xs font-semibold text-white mb-1">
-                <%= emp.name %>
+            <div class="bg-gradient-to-r from-purple-900 to-blue-900 p-3">
+              <h4 class="text-sm font-semibold text-white mb-2">
+                <%= index %>. <%= emp.name %>
               </h4>
             </div>
-            <div class="p-2" style="backdrop-filter: blur(100px)">
-              <div class="flex justify-between mb-1">
+            <div class="p-3" style="backdrop-filter: blur(100px)">
+              <div class="flex justify-between mb-2">
                 <p>ID:</p>
-                <p class="text-xs"><%= emp.id %></p>
+                <p class="text-sm"><%= emp.id %></p>
               </div>
-              <div class="flex justify-between mb-1">
+              <div class="flex justify-between mb-2">
                 <p>Email:</p>
-                <p class="text-xs"><%= emp.email %></p>
+                <p class="text-sm"><%= emp.email %></p>
               </div>
-              <div class="flex justify-between mb-1">
+              <div class="flex justify-between mb-2">
                 <p>Phone:</p>
-                <p class="text-xs"><%= emp.phone_number %></p>
+                <p class="text-sm"><%= emp.phone_number %></p>
               </div>
-              <div class="flex justify-between mb-1">
+              <div class="flex justify-between mb-2">
                 <p>Joining Date:</p>
-                <p class="text-xs">
+                <p class="text-sm">
                   <%= emp.joining_date.toLocaleDateString() %>
                 </p>
               </div>
-              <div class="flex justify-between mb-1">
+              <div class="flex justify-between mb-2">
                 <p>Agreement Till:</p>
-                <p class="text-xs">
+                <p class="text-sm">
                   <%= emp.agreementTill.toLocaleDateString() %>
                 </p>
               </div>
-              <div class="flex justify-between mb-1">
+              <div class="flex justify-between mb-2">
                 <p>Salary:</p>
-                <p class="text-xs">$<%= emp.salary.toFixed(2) %></p>
+                <p class="text-sm">$<%= emp.salary.toFixed(2) %></p>
               </div>
             </div>
           </div>
-          <% }) %>
+          <% index++ %> <% }) %>
         </div>
       </div>
     </div>
-
-    
   </body>
 </html>

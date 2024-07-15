@@ -158,18 +158,15 @@ app.get("/homePage", verifyToken, (req, res) => {
   connection.query(
     "SELECT * FROM admins WHERE id = ?",
     [userId],
-    (err, adminResult) => {
+    (err, admin) => {
       if (err) {
         console.error("Error fetching admin data:", err);
         return res.status(500).send("Internal Server Error");
       }
 
-      if (adminResult.length === 0) {
+      if (admin.length === 0) {
         return res.status(404).send("Admin not found");
       }
-
-      const admin = adminResult[0];
-      const deptName = admin.dept_name;
 
       // Fetch employees under the same department
       connection.query(
@@ -182,7 +179,7 @@ app.get("/homePage", verifyToken, (req, res) => {
           }
 
           // Render the dashboard with admin details and employees
-          res.render("homePage", { admin, employees: employeeResult });
+          res.render("homePage", { admin: admin[0], employees: employeeResult });
         }
       );
     }
@@ -197,7 +194,6 @@ app.get("/homePage", verifyToken, (req, res) => {
 // Fetch all employees
 app.get("/homePage/employee", verifyToken, (req, res) => {
   const adminId = req.userId;
-  console.log(adminId);
 
   const sql = "SELECT * FROM employee where adminId=?";
   connection.query(sql, [adminId], (err, result) => {
@@ -216,14 +212,30 @@ app.get("/homePage/employee", verifyToken, (req, res) => {
 
 
 // Delete an employee
-app.get("/homePage/delete-employee", verifyToken, (req, res) => {
-  const { id } = req.query;
-  res.render("confirmDelete", { id: id });
+app.get("/homePage/employee/delete-employee", verifyToken, (req, res) => {
+  const id  = req.query.id;
+
+  const sql = "SELECT * FROM employee WHERE id = ?";
+  // standard form for getting data from database -> in try, catch block
+  try {
+    connection.query(sql, [id], (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Server error");
+        return;
+      }
+      res.render("confirmDelete", { employee: result[0] });
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error when connecting to the database");
+    return;
+  }
 });
 // Route to handle deletion
-app.post("/homePage/delete-employee", (req, res) => {
+app.post("/homePage/employee/delete-employee", (req, res) => {
   const { id, confirm } = req.body;
-
+  console.log(id);
   if (confirm === "true") {
     const sql = "DELETE FROM employee WHERE id = ?";
     connection.query(sql, [id], (err, result) => {
@@ -232,7 +244,7 @@ app.post("/homePage/delete-employee", (req, res) => {
         res.status(500).send("Server error");
         return;
       }
-      res.redirect("/homePage");
+      res.redirect("/homePage/employee");
     });
   } else {
     res.redirect("/homePage/employee");
@@ -246,10 +258,54 @@ app.post("/homePage/delete-employee", (req, res) => {
 
 
 
+app.get("/homePage/employee/update-employee", verifyToken, (req, res) => {
+  const  {id} = req.query;
+  connection.query(
+    "SELECT * FROM employee WHERE id = ?",
+    [id],
+    (err, employee) => {
+      if (err) {
+        console.error("Error fetching employee data:", err);
+        return res.status(500).send("Internal Server Error");
+      }
+      else{
+        res.render("updateEmployee", {massage: "Email Can not be changed!", employee: employee[0]});
+      }
+    }
+  );
+});
+app.post("/homePage/employee/update-employee", verifyToken, (req, res) => {
+  const id = req.query.id;
+  console.log(id);
+  const { name, joining_date, agreementTill, email, salary, phone_number, dept_name} = req.body;
+
+  const sql = "UPDATE employee SET name = ?, salary = ?, phone_number = ? WHERE id = ?";
+  connection.query(
+    sql,
+    [name, salary, phone_number, id],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Server error");
+        return;
+      }
+      res.redirect("/homePage/employee");
+    }
+  );
+
+});
+
+
+
+
+
+
+
+
+
 // Add a new employee
 app.get("/homePage/add-employee", verifyToken,(req, res) => {
   const  id = req.userId;
-  console.log(id);
   connection.query(
     "SELECT dept_name FROM admins WHERE id = ?",
     [id],
@@ -259,8 +315,7 @@ app.get("/homePage/add-employee", verifyToken,(req, res) => {
         return res.status(500).send("Internal Server Error");
       }
       else{
-        res.render("addEmployee", {adminDeptName: dept[0].dept_name});  
-
+        res.render("addEmployee", {massage: "", adminDeptName: dept[0].dept_name});  
       }
     }
   );
@@ -292,8 +347,9 @@ app.post("/homePage/add-employee", verifyToken, (req, res) => {
 
 
 
+
 app.get("/homePage/profile", verifyToken, (req, res) => {
-  const { id } = req.query;
+  const id  = req.userId;
 
   if (!id) {
     return res.status(400).send("Admin ID is required");

@@ -1,5 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@200;300;400;500;600;700&display=swap");
 
+:root {
+  --font-size: 16px;
+  --padding: 20px;
+  --margin: 20px;
+  --input-height: 40px;
+  --label-font-size: 14px;
+  --button-font-size: 14px;
+  --h2-font-size: 1.5rem;
+  --wrapper-width: 25rem;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -13,7 +24,7 @@ body {
   justify-content: center;
   min-height: 100vh;
   width: 100%;
-  padding: 5px; /* Reduced padding */
+  padding: var(--padding);
   color: #f1fd02;
   position: relative;
 }
@@ -30,9 +41,9 @@ body::before {
 }
 
 .wrapper {
-  width: 20rem; /* Reduced width */
+  width: var(--wrapper-width);
   border-radius: 8px;
-  padding: 20px; /* Reduced padding */
+  padding: var(--padding);
   text-align: center;
   border: 1px solid #f1fd02;
   backdrop-filter: blur(20px);
@@ -42,19 +53,19 @@ body::before {
 form {
   display: flex;
   flex-direction: column;
-  padding: 5px;
+  padding: var(--padding);
 }
 
 h2 {
-  font-size: 1.5rem; /* Reduced font size */
-  margin-bottom: 15px; /* Reduced margin */
+  font-size: var(--h2-font-size);
+  margin-bottom: var(--margin);
   color: #f1fd02;
 }
 
 .input-field {
   position: relative;
   border-bottom: 2px solid #f1fd02;
-  margin: 15px 0; /* Reduced margin */
+  margin: var(--margin) 0;
 }
 
 .input-field label {
@@ -63,7 +74,7 @@ h2 {
   left: 0;
   transform: translateY(-50%);
   color: #f1fd02;
-  font-size: 14px; /* Reduced font size */
+  font-size: var(--label-font-size);
   font-weight: 700;
   pointer-events: none;
   transition: 0.2s ease;
@@ -71,20 +82,20 @@ h2 {
 
 .input-field input {
   width: 100%;
-  height: 40px; /* Reduced height */
+  height: var(--input-height);
   background: transparent;
   border: none;
   outline: none;
   word-spacing: 2px;
-  font-size: 16px; /* Reduced font size */
+  font-size: var(--font-size);
   font-family: "Times New Roman", Times, serif;
   color: #fff;
-  padding-top: 15px; /* Adjusted padding */
+  padding-top: calc(var(--padding) / 2);
 }
 
 .input-field input:focus ~ label,
 .input-field input:valid ~ label {
-  font-size: 0.7rem; /* Reduced font size */
+  font-size: calc(var(--label-font-size) / 1.5);
   top: 0;
   transform: translateY(-50%);
 }
@@ -93,7 +104,7 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 20px 0 30px 0; /* Reduced margins */
+  margin: var(--margin) 0;
   color: #f1fd02;
 }
 
@@ -107,7 +118,7 @@ h2 {
 }
 
 .forget label p {
-  margin-left: 6px; /* Reduced margin */
+  margin-left: calc(var(--margin) / 2);
 }
 
 .wrapper a {
@@ -122,13 +133,13 @@ h2 {
 button {
   background: #f1fd02;
   color: #552e5a;
-  margin-top: 0.8rem; /* Reduced margin */
+  margin-top: calc(var(--margin) / 2);
   font-weight: 700;
   border: none;
-  padding: 10px 16px; /* Reduced padding */
+  padding: calc(var(--padding) / 2) calc(var(--padding) / 1.5);
   cursor: pointer;
   border-radius: 3px;
-  font-size: 14px; /* Reduced font size */
+  font-size: var(--button-font-size);
   border: 2px solid transparent;
   transition: 0.3s ease;
 }
@@ -142,6 +153,32 @@ button:hover {
 
 .register {
   text-align: center;
-  margin-top: 20px; /* Reduced margin */
+  margin-top: var(--margin);
   color: #f1fd02;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --font-size: 14px;
+    --padding: 15px;
+    --margin: 15px;
+    --input-height: 35px;
+    --label-font-size: 12px;
+    --button-font-size: 12px;
+    --h2-font-size: 1.25rem;
+    --wrapper-width: 20rem;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --font-size: 12px;
+    --padding: 10px;
+    --margin: 10px;
+    --input-height: 30px;
+    --label-font-size: 10px;
+    --button-font-size: 10px;
+    --h2-font-size: 1rem;
+    --wrapper-width: 15rem;
+  }
 }
